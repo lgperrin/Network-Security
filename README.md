@@ -1,13 +1,24 @@
 # Network Security
 
+This module introduces security technologies and policies for the design, development, and deployment of secure networks. Issues related to network security include the security of internet protocols, network attack and defence mechanisms, network monitoring and analysis, and network security administration. Issues related to network security include the security of internet protocols, network attack and defence mechanisms, network monitoring and analysis, and network security administration.
+
+The following topics are covered in the lectures:
+
+1. Introduction to Network Security
+2. Security of Internet Protocols
+3. Firewalls
+4. Intrusion Detection Systems
+5. Interconnecting Networks
+6. Denial of Service
+7. Network Configuration
 
 # University Course Information
 
 | Attribute           | Details                       |
 |---------------------|-------------------------------|
 | **University**      | Queen's University of Belfast |
-| **Module**          | Malware Analysis              |
-| **Teacher**         | Dr Niall McLaughlin           |
+| **Module**          | Network Security              |
+| **Teacher**         | Dr Kieran McLaughlin          |
 | **Author of Notes** | Laura García Perrín           |
 
 
@@ -22,7 +33,7 @@ Provide a quick overview of the packet capture's composition and involved IP add
 - **Tool Used:** Wireshark
 - **Method:**
   1. Open the packet capture file with Wireshark.
-  2. Use "Protocol Hierarchy" under the statistics tools to view the percentage of bytes for each protocol, giving an idea of the traffic composition.
+  2. Use "_Protocol Hierarchy_" under the statistics tools to view the percentage of bytes for each protocol, giving an idea of the traffic composition.
   3. Summarize these statistics in a PowerPoint slide, focusing on main transport layer protocols like TCP, UDP, etc.
 
 ### Identification of IP Addresses
