@@ -8,7 +8,7 @@
 
 Based on the Protocol Hierarchy statistics provided from Wireshark, here's what we can derive for task 1.a:
 
-T1. **Transmission Control Protocol (TCP)**: This is the dominant transport layer protocol in the capture, accounting for 83.2% of the total bytes. This suggests that most of the network activity in the capture was TCP-based. Given that TCP is a connection-oriented protocol, this indicates a prevalence of established sessions, which could include web traffic, file transfers, or other application data that requires reliable communication.
+1. **Transmission Control Protocol (TCP)**: This is the dominant transport layer protocol in the capture, accounting for 83.2% of the total bytes. This suggests that most of the network activity in the capture was TCP-based. Given that TCP is a connection-oriented protocol, this indicates a prevalence of established sessions, which could include web traffic, file transfers, or other application data that requires reliable communication.
 
 2. **User Datagram Protocol (UDP)**: UDP accounts for 16.8% of the total bytes. This is significantly less than TCP, indicating less UDP-based activity. Since UDP is connectionless and often used for services that require fast delivery such as DNS or streaming, the presence of UDP could be related to domain resolution activities or possibly streaming or real-time communication services.
 
