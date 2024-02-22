@@ -29,3 +29,22 @@ Based on the Protocol Hierarchy statistics provided from Wireshark, here's what 
 | **DNS**       | 16.8% of UDP packets  | 2.9%                | Frequent but small packets typical for DNS           |
 
 Given this data, for task 1.A we could state that the network traffic captured is predominantly TCP-based with a significant amount of Telnet traffic, which could be indicative of Mirai malware activity since Mirai is known to exploit Telnet. The presence of substantial HTTP traffic suggests regular web activity or potential web-based C2 mechanisms. The relatively high number of DNS packets compared to their byte size is consistent with normal network behavior, as DNS queries are generally frequent but small in packet size.
+
+### B. Identify All IP Addresses
+
+To complete task 1b, where we need to identify all IP addresses involved in the packet capture, we need to follow these steps in Wireshark:
+
+1. Open Wireshark and load the pcap file.
+2. Go to the "_Statistics_" menu at the top.
+3. Select "Endpoints" from the drop-down menu.
+4. In the Endpoints window, click on the "_IPv4_" tab to list all the unique IPv4 addresses. If there is IPv6 traffic, you can also click on the "_IPv6_" tab.
+We can export this information by clicking the "_Copy_" button at the bottom of the Endpoints window and select "_… as CSV_" to copy the details in a CSV format that can be pasted into a spreadsheet or other document.
+
+
+
+### C. Host and Network Insights
+
+
+
+
+
