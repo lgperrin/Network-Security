@@ -32,7 +32,7 @@ Given this data, for task 1.A we could state that the network traffic captured i
 
 ### B. Identify All IP Addresses
 
-To complete task 1b, where we need to identify all IP addresses involved in the packet capture, we need to follow these steps in Wireshark:
+To complete task 1B, where we need to identify all IP addresses involved in the packet capture, we need to follow these steps in Wireshark:
 
 1. Open Wireshark and load the pcap file.
 2. Go to the "_Statistics_" menu at the top.
@@ -40,6 +40,7 @@ To complete task 1b, where we need to identify all IP addresses involved in the 
 4. In the Endpoints window, click on the "_IPv4_" tab to list all the unique IPv4 addresses. If there is IPv6 traffic, you can also click on the "_IPv6_" tab.
 We can export this information by clicking the "_Copy_" button at the bottom of the Endpoints window and select "_… as CSV_" to copy the details in a CSV format that can be pasted into a spreadsheet or other document.
 
+This will give you a list of all IP addresses that have sent or received packets during the capture. If you want to narrow it down to only certain types of traffic, you can apply a display filter before opening the Endpoints window. For example, if you want to identify the IP addresses involved in Telnet traffic, you could apply a filter such as `tcp.port == 23` before opening the Endpoints statistic.
 
 
 ### C. Host and Network Insights
