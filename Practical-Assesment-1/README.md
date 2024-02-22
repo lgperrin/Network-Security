@@ -1,31 +1,39 @@
 # Practical Assesment 1 -- Packet Capture Analysis and Security Measures
 
+## Requirements
+
+- [x] Wireshark
+- [x] Virtual Machine (VM) 
+- [x] Assesment-1.pcap
+
 ## Part 1: Basic Analysis
 
-### Objective
-Provide a quick overview of the packet capture's composition and involved IP addresses.
+### A. Transport Layer Protocol Analysis
 
-### Analysis of Protocols
-- **Tool Used:** Wireshark
-- **Method:**
+Objective: Provide a quick overview of the packet capture's composition and involved IP addresses. You'll need to identify the percentage of bytes belonging to each transport layer protocol (e.g., TCP, UDP) in relation to the entire capture. This can be done by analyzing the pcap file to count bytes for each protocol.
+
   1. Open the packet capture file with Wireshark.
   2. Use "_Protocol Hierarchy_" under the statistics tools to view the percentage of bytes for each protocol, giving an idea of the traffic composition.
   3. Summarize these statistics in a PowerPoint slide, focusing on main transport layer protocols like TCP, UDP, etc.
 
-### Identification of IP Addresses
-- **Tool Used:** Wireshark
-- **Method:**
-  1. Use the "Endpoints" tool under the "Statistics" menu to list all IP addresses involved in the capture.
+### B. Identification of IP Addresses
+
+Objective: Identify all IP addresses involved in the capture in order to understand the network's structure and the potential targets of the malware.
+
+  1. Use the "_Endpoints_" tool under the "_Statistics_" menu to list all IP addresses involved in the capture.
   2. Highlight these IP addresses on your slide, noting any frequent addresses or address ranges that might indicate a network segment.
 
-### Host and Network Insight
-- Deduce the capturing host's IP address by identifying the most common local address or based on the capture file's context.
-- Provide insights into the IP addresses, such as potential local network ranges or external addresses that may indicate command and control servers or other relevant entities.
+### C. Host and Network Insight
+
+Objective: Deduce the capturing host's IP address by identifying the most common local address or based on the capture file's context. Also, provide insights into the IP addresses, such as potential local network ranges or external addresses that may indicate command and control servers or other relevant entities.
 
 ## Part 2: Advanced Analysis
 
-### Objective
-Dive deeper into the packet capture to identify Mirai-specific activities and Indicators of Compromise (IOCs).
+Objective: Dive deeper into the packet capture to identify Mirai-specific activities and Indicators of Compromise (IOCs). In this section, you'll delve deeper into the pcap file using Wireshark to identify network activity and Indicators of Compromise (IOC) associated with Mirai. Focus on:
+
+1. Timeline and Communications: Construct a timeline based on packet timestamps to understand the sequence of malicious activities.
+2. Evidence of Mirai Activity: Look for signatures of Mirai, such as attempts to exploit specific vulnerabilities, the use of default credentials in Telnet access attempts, and unusual outbound traffic patterns.
+3. Key Pieces of Evidence: Highlight specific packets, IP addresses, and payloads that indicate malicious activity.
 
 ### Evidence of Malware Activity
 - **Method:**
@@ -38,8 +46,7 @@ Dive deeper into the packet capture to identify Mirai-specific activities and In
 
 ## Part 3: Demonstrate Network Security Measures
 
-### Objective
-Utilize VMs to replicate packet features observed in the analysis and test security measures.
+Objective: Utilize VMs to replicate packet features observed in the analysis and test security measures. Based on the identified IOCs, you'll use hping3 to simulate similar traffic and then implement network security measures to detect or block such activity. Discuss the effectiveness of each measure and demonstrate them using the VM environment.
 
 ### Replicating Packet Features with hping3
 - **Method:** Use hping3 to create packets that mirror those identified as malicious, including specific flags, payload sizes, or rate limiting.
