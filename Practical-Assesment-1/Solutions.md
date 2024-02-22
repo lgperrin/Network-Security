@@ -42,12 +42,7 @@ We can export this information by clicking the "_Copy_" button at the bottom of 
 
 _Note_. This will give you a list of all IP addresses that have sent or received packets during the capture. If we want to narrow it down to only certain types of traffic, we can apply a display filter before opening the Endpoints window. For example, if we want to identify the IP addresses involved in Telnet traffic, we could apply a filter such as `tcp.port == 23` before opening the Endpoints statistic.
 
-#### Ethernet Traffic Summary
-
-| MAC Address       | Packets Sent | Bytes Sent | Packets Received | Bytes Received | Total Packets | Total Bytes |
-|-------------------|--------------|------------|------------------|----------------|---------------|-------------|
-| `00:e0:4c:68:df:56` | 627          | 127829     | 1126             | 352550         | 1753          | 480379      |
-| `8c:e7:48:52:a0:de` | 1126         | 352550     | 627              | 127829         | 1753          | 480379      |
+![alt text]()
 
 
 ### C. Host and Network Insights
