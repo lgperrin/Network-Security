@@ -64,5 +64,64 @@ To complete task 1B, where we need to identify all IP addresses involved in the 
 * The AWS IPs (`13.51.81.207` and `13.51.81.212`) could be significant if they are not expected within the network's normal traffic; they might be related to C2 communication or there might be hosting a service that interacts with the malware.
 * The absence of additional context about the addresses `65.222.202.53` and `109.184.144.30` makes it difficult to draw definitive conclusions, but their interactions with the host may warrant further investigation, especially if the traffic volume is anomalous or if there are connections on unusual ports.
 
+## Part 2: Advanced Analysis
+
+In this section, we have to identify a diverse range of features from the capture that provide clear evidence of network activity and network Indicators of Compromise (IOC) associated with Mirai network activity.
+
+### Capture File Properties
+
+The capture file properties provide information about the packet capture (pcap) file. We can get this info by opening _Statistics -> Capture File Properties_:
+
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20104930.png)
+
+**Comments**. The path shows that the file is stored in the `OneDrive/Documents/Network Security` directory, indicating it may be related to a network security assessment or exercise. The file is $508$ KB, which suggests a moderate amount of captured data, and it's also "hashed" as it appears some cryptographic hash functions, like SHA256 and SHA-1, which might be used to verify the integrity of the file. On the other hand, the file is in standard Wireshark format (.pcap) and the data it contains is encapsulated using Ethernet, indicating that the capture was taken from a network using Ethernet technology. The maximum packet size that was captured is $65535$ bytes, which is the maximum Ethernet frame size and the capture duration was about 30 minutes, starting from `19:18:31` and ending at `19:48:42` on September 30, 2016. Some other statistics are:
+
+* A total of $1753$ packets were captured.
+* The capture spanned $1810.887$ seconds.
+* The average packets per second (pps) is $1.0$, indicating that, on average, one packet was captured per second.
+* The average packet size is $274$ bytes.
+* The total number of bytes captured is $480379$.
+* The average bytes per second is $265$, which could be considered low, indicating not a very high traffic volume during the capture period.
+* The bit rate is $2129$ bits per second, which again suggests a <ins>low traffic volume</ins>.
+
+### Deep Packet Inspection
+
+1. Open the pcap file with Wireshark.
+2. Use the _File -> Export Objects -> HTTP_ (or other protocols) to extract any files or data that may have been transferred.
+3. Use the _Follow -> TCP/UDP Stream_ feature to inspect the contents of individual conversations.
+
+### Protocol Analysis
+
+1. In Wireshark, use _Statistics -> Protocol Hierarchy_ to get an overview of the protocol distribution.
+2. Filter for each protocol and review the packets for unusual behavior, such as HTTPS traffic on non-standard ports with `tcp.port != 443`.
+
+### Timing and Patterns
+
+1. Use the _Statistics -> IO Graphs or Statistics -> Time Sequence (Graph)_ to analyze the flow of packets over time.
+2. Look for regular patterns or anomalies that stand out from the baseline.
+
+### Cross-Reference with Threat Intelligence:
+
+1. Use online resources, like VirusTotal or other threat intelligence platforms, to check the reputation of IPs and domains. Some platforms allow you to upload the pcap file directly for analysis.
+
+### Flow and Session Analysis:
+
+1. Use _Statistics -> Flow Graph_ to visualize the flow of traffic.
+2. Use _Statistics -> Conversations_ to see detailed session information between hosts.
+
+### Geolocation and Ownership
+
+1. Use online IP geolocation services to check the geographical location of external IPs.
+2. Use Whois services to find out who owns the IP addresses.
+
+### Anomaly Detection
+
+1. Establish a baseline of normal network activity by reviewing historical data.
+2. Use Wireshark’s _Statistics -> Compare function_ or similar tools to compare current traffic with the baseline.
+
+### Follow the Data
+
+1. Identify potential exfiltration paths by filtering for larger-than-usual data transfers.
+2. Look for any unexplained data flows to external destinations.
 
 
