@@ -8,20 +8,11 @@
 
 ## Part 1: Basic Analysis
 
-### A. Transport Layer Protocol Analysis
+You are required to concisely present the following information at the start of your video. No other introduction or summary is necessary. You may wish to summarise information answering parts 1.a, 1.b, and 1.c in a single PowerPoint slide. This part of the video should take you less than 1 minute to present.
 
-**Objective**: Provide a quick overview of the packet capture's composition and involved IP addresses. You'll need to identify the percentage of bytes belonging to each transport layer protocol (e.g., TCP, UDP) in relation to the entire capture. This can be done by analyzing the pcap file to count bytes for each protocol.
-
-  1. Open the packet capture file with Wireshark.
-  2. Use "_Protocol Hierarchy_" under the statistics tools to view the percentage of bytes for each protocol, giving an idea of the traffic composition.
-  3. Summarize these statistics in a PowerPoint slide, focusing on main transport layer protocols like TCP, UDP, etc.
-
-### B. Identification of IP Addresses
-
-**Objective**: Identify all IP addresses involved in the capture in order to understand the network's structure and the potential targets of the malware.
-
-  1. Use the "_Endpoints_" tool under the "_Statistics_" menu to list all IP addresses involved in the capture.
-  2. Highlight these IP addresses on your slide, noting any frequent addresses or address ranges that might indicate a network segment.
+a. For all protocols encapsulated by the transport layer, identify the percentage of bytes belonging to each protocol relative to the entire capture.
+b. Identify all IP addresses involved in the capture.
+c. State the IP address of the host where the capture was taken, as well as any other IP addresses that you think belong to the same network. Briefly, state any insights that might be inferred about other host IP addresses that you think is useful in understanding the behaviour of the malware.
 
 ### C. Host and Network Insight
 
@@ -29,7 +20,7 @@
 
 ## Part 2: Advanced Analysis
 
-**Objective**: Dive deeper into the packet capture to identify Mirai-specific activities and Indicators of Compromise (IOCs). In this section, you'll delve deeper into the pcap file using Wireshark to identify network activity and Indicators of Compromise (IOC) associated with Mirai. Focus on:
+Identify a diverse range of features from the capture that provide clear evidence of network activity and network Indicators of Compromise (IOC) associated with Mirai network activity. This part of the video should take you 2-3 minutes to present.
 
 * Use Wireshark to present your analysis. You are required to demonstrate that you can effectively use the Wireshark tool for packet analysis.
 * Provide a verbal and visual explanation of what you think happened in the network. You may want to consider a timeline of the communications that took place and walk through the evidence using Wireshark.
@@ -38,17 +29,16 @@
 
 ## Part 3: Demonstrate Network Security Measures
 
-**Objective**: Utilize VMs to replicate packet features observed in the analysis and test security measures. Based on the identified IOCs, you'll use hping3 to simulate similar traffic and then implement network security measures to detect or block such activity. Discuss the effectiveness of each measure and demonstrate them using the VM environment.
+For Part 3 you are required to use the two VMs that were used for Labs 2 and 3. This part of the video should take you 2-3 minutes to present.
 
-### Replicating Packet Features with hping3
-- **Method:** Use hping3 to create packets that mirror those identified as malicious, including specific flags, payload sizes, or rate limiting.
+* Using the network activity and Indicators of Compromise identified in your answer for Part 2, use hping3 to create test packets that replicate those key features. hping3 will allow you to send created packets from one VM to the other.
+* Using whatever network security tools that you think are appropriate within the existing VM environment, propose and demonstrate network security measures that you would implement in a real network to provide protection and detection against the version of Mirai that you observed in the packet capture.
+* Briefly explain any pros or cons of your proposed network security measures, i.e. how effective you think each of your proposed measures would be against Mirai.
+* For guidance, the test packets you create with hping3 do not have to perfectly replicate the packets seen in the original packet capture. The expectation is that you create packets with features that are sufficiently similar to allow for meaningful testing of your security measures.
+* You should present a diverse set of security measures against various network indicators that you believe would be effective, i.e. several different measures and IOCs should be covered by your answer.
+* Provide a verbal and visual explanation to demonstrate and prove that your test packets and security measures work as expected.
 
-### Implementing and Testing Security Measures
-- Configure network security tools (e.g., IDS/IPS, firewalls) within the VMs based on the identified IOCs and behaviors.
-- Demonstrate the effectiveness of these measures by showing how they identify or stop the test packets.
-
-### Evaluation of Security Measures
-- Discuss the strengths and potential weaknesses of each security measure, considering factors like false positives/negatives, resource consumption, and evasion techniques complexity.
+Note that for Part 3 you must create test packets that replicate features of interest that you found in the pcap. You do not need to use the Assessment-1.pcap file within the VM environment. You should not create your own alternative VM environment. You do not need to modify the VMs, apart from using the tools as covered in Labs 2 and 3.
 
 ## Video Report Tips
 - Ensure clarity in both audio and visual elements. Use zooming or highlighting in Wireshark to make details easily viewable.
