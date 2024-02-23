@@ -1,4 +1,4 @@
-# Practical Assesment 1 -- Packet Capture Analysis and Security Measures
+# Practical Assesment 1. Packet Capture Analysis and Security Measures
 
 ## Requirements
 
