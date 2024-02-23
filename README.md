@@ -25,7 +25,7 @@ The following topics are covered in the lectures:
 
 You are required to submit two pieces of assessment.
 
-| Assesment                      | Details                                |
+| Assesment                      | Score                                 |
 |---------------------           |-------------------------------         |
 | **Practical Exercise**         | $40$% (a video report submission)        |
 | **Case Study Report**          | $60$%   (a written report submission)    |
