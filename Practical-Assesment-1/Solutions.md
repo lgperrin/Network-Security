@@ -3,9 +3,9 @@
 ## Table of Contents
 
 - [Part 1: Basic Analysis](#part-1-basic-analysis)
-  - [A. Transport Layer Protocol Analysis](#a-transport-layer-protocol-analysis)
-  - [B. Identify All IP Addresses](#b-identify-all-ip-addresses)
-  - [C. Host and Network Insights](#c-host-and-network-insights)
+  - [1.1 Transport Layer Protocol Analysis](#a-transport-layer-protocol-analysis)
+  - [1.2 Identify All IP Addresses](#b-identify-all-ip-addresses)
+  - [1.3 Host and Network Insights](#c-host-and-network-insights)
 - [Part 2: Advanced Analysis](#part-2-advanced-analysis)
   - [2.1 Capture File Properties](#21-capture-file-properties)
   - [2.2 TCP Port](#22-tcp-port)
@@ -17,7 +17,7 @@
 
 ## Part 1: Basic Analysis
 
-### A. Transport Layer Protocol Analysis
+### 1.1 Transport Layer Protocol Analysis
 
 From the _Statistics_ $>$ _Protocol Hierarchy_ section we get:
 
@@ -45,7 +45,7 @@ Based on the Protocol Hierarchy statistics provided from Wireshark, here's what 
 
 Given this data, for task 1.A we could state that the network traffic captured is predominantly TCP-based with a significant amount of Telnet traffic, which could be indicative of Mirai malware activity since Mirai is known to exploit Telnet. The presence of substantial HTTP traffic suggests regular web activity or potential web-based C2 mechanisms. The relatively high number of DNS packets compared to their byte size is consistent with normal network behavior, as DNS queries are generally frequent but small in packet size.
 
-### B. Identify All IP Addresses
+### 1.2 Identify All IP Addresses
 
 To complete task 1B, where we need to identify all IP addresses involved in the packet capture, we will follow these steps in Wireshark:
 
@@ -67,7 +67,7 @@ To complete task 1B, where we need to identify all IP addresses involved in the 
 | `192.168.2.56`   | This is a private IP address, commonly used within private networks. This address is not routable on the public internet and is typically used for local network devices. |
 
 
-### C. Host and Network Insights
+### 1.3 Host and Network Insights
 
 **How can we identify the host IP?** By looking for the IP address with the most packets sent and received, as this is often the host machine where the capture was taken. In network captures, the host typically has the most traffic because it communicates with multiple external IP addresses. In the provided data, the IP address `192.168.2.56` has the highest number of packets, which suggests it could be the host of the capture.
 
