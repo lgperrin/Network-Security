@@ -1,4 +1,4 @@
-# Network Security CSC3064
+# Network Security 
 
 This module introduces security technologies and policies for the design, development, and deployment of secure networks. Issues related to network security include the security of internet protocols, network attack and defence mechanisms, network monitoring and analysis, and network security administration. Issues related to network security include the security of internet protocols, network attack and defence mechanisms, network monitoring and analysis, and network security administration.
 
