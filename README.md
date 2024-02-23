@@ -1,4 +1,4 @@
-# Network Security
+# Network Security CSC3064
 
 This module introduces security technologies and policies for the design, development, and deployment of secure networks. Issues related to network security include the security of internet protocols, network attack and defence mechanisms, network monitoring and analysis, and network security administration. Issues related to network security include the security of internet protocols, network attack and defence mechanisms, network monitoring and analysis, and network security administration.
 
@@ -17,7 +17,7 @@ The following topics are covered in the lectures:
 | Attribute           | Details                       |
 |---------------------|-------------------------------|
 | **University**      | Queen's University of Belfast |
-| **Module**          | Network Security              |
+| **Module**          | Network Security (CSC3064)             |
 | **Teacher**         | Dr Kieran McLaughlin          |
 | **Author of Notes** | Laura García Perrín           |
 
