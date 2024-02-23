@@ -31,18 +31,10 @@
 
 **Objective**: Dive deeper into the packet capture to identify Mirai-specific activities and Indicators of Compromise (IOCs). In this section, you'll delve deeper into the pcap file using Wireshark to identify network activity and Indicators of Compromise (IOC) associated with Mirai. Focus on:
 
-1. Timeline and Communications: Construct a timeline based on packet timestamps to understand the sequence of malicious activities.
-2. Evidence of Mirai Activity: Look for signatures of Mirai, such as attempts to exploit specific vulnerabilities, the use of default credentials in Telnet access attempts, and unusual outbound traffic patterns.
-3. Key Pieces of Evidence: Highlight specific packets, IP addresses, and payloads that indicate malicious activity.
-
-### Evidence of Malware Activity
-- **Method:**
-  1. Look for patterns typical of Mirai, such as attempts to exploit known vulnerabilities, brute-force attacks over Telnet, and specific payloads or commands.
-  2. Use Wireshark's filtering capabilities to isolate and examine these activities, e.g., `tcp.port == 23` for Telnet.
-
-### Timeline and Key Evidence
-- Construct a timeline of malicious activities by noting the timestamps of critical packets.
-- Present specific packets or sequences that demonstrate malware behavior, including any payloads decoded from hexadecimal or ASCII.
+* Use Wireshark to present your analysis. You are required to demonstrate that you can effectively use the Wireshark tool for packet analysis.
+* Provide a verbal and visual explanation of what you think happened in the network. You may want to consider a timeline of the communications that took place and walk through the evidence using Wireshark.
+* Be sure to clearly show on screen the observable features or network Indicators of Compromise that you think are key pieces of evidence.
+* Discuss and display specific individual packets, protocol information, headers, IP addresses, payloads, etc. (anything you think is relevant), with commentary about how the information supports your discussion.
 
 ## Part 3: Demonstrate Network Security Measures
 
