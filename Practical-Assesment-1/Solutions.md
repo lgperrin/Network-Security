@@ -2,7 +2,18 @@
 
 ## Table of Contents
 
-1. [Part 1: Basic Analysis](##Part 1: Basic Analysis)
+- [Part 1: Basic Analysis](#part-1-basic-analysis)
+  - [A. Transport Layer Protocol Analysis](#a-transport-layer-protocol-analysis)
+  - [B. Identify All IP Addresses](#b-identify-all-ip-addresses)
+  - [C. Host and Network Insights](#c-host-and-network-insights)
+- [Part 2: Advanced Analysis](#part-2-advanced-analysis)
+  - [2.1 Capture File Properties](#21-capture-file-properties)
+  - [2.2 TCP Port](#22-tcp-port)
+  - [2.3 HTTP GET Request](#23-http-get-request)
+  - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
+  - [2.5 DNS Traffic](#25-dns-traffic)
+- [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
+
 
 ## Part 1: Basic Analysis
 
