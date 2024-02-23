@@ -11,7 +11,9 @@
 You are required to concisely present the following information at the start of your video. No other introduction or summary is necessary. You may wish to summarise information answering parts 1.a, 1.b, and 1.c in a single PowerPoint slide. This part of the video should take you less than 1 minute to present.
 
 a. For all protocols encapsulated by the transport layer, identify the percentage of bytes belonging to each protocol relative to the entire capture.
+
 b. Identify all IP addresses involved in the capture.
+
 c. State the IP address of the host where the capture was taken, as well as any other IP addresses that you think belong to the same network. Briefly, state any insights that might be inferred about other host IP addresses that you think is useful in understanding the behaviour of the malware.
 
 ### C. Host and Network Insight
