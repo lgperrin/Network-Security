@@ -68,9 +68,9 @@ To complete task 1B, where we need to identify all IP addresses involved in the 
 
 In this section, we have to identify a diverse range of features from the capture that provide clear evidence of network activity and network Indicators of Compromise (IOC) associated with Mirai network activity.
 
-### Capture File Properties
+### Capture File Properties 
 
-The capture file properties provide information about the packet capture (pcap) file. We can get this info by opening _Statistics -> Capture File Properties_:
+The Capture File Properties provide information about the packet capture (pcap) file. We can get this info by opening _Statistics -> Capture File Properties_:
 
 ![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20104930.png)
 
@@ -84,44 +84,14 @@ The capture file properties provide information about the packet capture (pcap) 
 * The average bytes per second is $265$, which could be considered low, indicating not a very high traffic volume during the capture period.
 * The bit rate is $2129$ bits per second, which again suggests a <ins>low traffic volume</ins>.
 
-### Deep Packet Inspection
+### TCP Port 
 
-1. Open the pcap file with Wireshark.
-2. Use the _File -> Export Objects -> HTTP_ (or other protocols) to extract any files or data that may have been transferred.
-3. Use the _Follow -> TCP/UDP Stream_ feature to inspect the contents of individual conversations.
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20110704.png)
 
-### Protocol Analysis
+In the top pane, we can select the first packet and expand the TCP information in the middle pane. The source TCP port is `55392`, meanwhile the destination port is `23`, which is commonly used for Telnet, a protocol used to provide a command-line interface for communication with a remote device. The use of port $23$ could suggest that the packet is part of an attempt to establish a Telnet connection, which is often not secure because it transmits data, including passwords, in plaintext. 
 
-1. In Wireshark, use _Statistics -> Protocol Hierarchy_ to get an overview of the protocol distribution.
-2. Filter for each protocol and review the packets for unusual behavior, such as HTTPS traffic on non-standard ports with `tcp.port != 443`.
+Now, we can apply the source port of the first packet as a filter in order to see how many packets are displayed when the filter is applied. There are 28 packets. 
 
-### Timing and Patterns
+### HTTP GET Request 
 
-1. Use the _Statistics -> IO Graphs or Statistics -> Time Sequence (Graph)_ to analyze the flow of packets over time.
-2. Look for regular patterns or anomalies that stand out from the baseline.
-
-### Cross-Reference with Threat Intelligence:
-
-1. Use online resources, like VirusTotal or other threat intelligence platforms, to check the reputation of IPs and domains. Some platforms allow you to upload the pcap file directly for analysis.
-
-### Flow and Session Analysis:
-
-1. Use _Statistics -> Flow Graph_ to visualize the flow of traffic.
-2. Use _Statistics -> Conversations_ to see detailed session information between hosts.
-
-### Geolocation and Ownership
-
-1. Use online IP geolocation services to check the geographical location of external IPs.
-2. Use Whois services to find out who owns the IP addresses.
-
-### Anomaly Detection
-
-1. Establish a baseline of normal network activity by reviewing historical data.
-2. Use Wireshark’s _Statistics -> Compare function_ or similar tools to compare current traffic with the baseline.
-
-### Follow the Data
-
-1. Identify potential exfiltration paths by filtering for larger-than-usual data transfers.
-2. Look for any unexplained data flows to external destinations.
-
-
+What URL does the attack attempt to use? To find out which URL an attack is attempting to use in a pcap file, we'll need to look for an HTTP GET request, as this is the method used by web browsers and other clients to request data from servers. One approach is to use the "_Filter_" bar at the top of the main Wireshark window to filter the displayed packets and enter the filter expression `http.request.method == "GET"` to show only the HTTP GET requests. Then, expand the '_Hypertext Transfer Protocol_' field to view the full HTTP request, including the requested URL.
