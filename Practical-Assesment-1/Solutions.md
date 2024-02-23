@@ -1,5 +1,9 @@
 # Solutions to the Exercises
 
+## Table of Contents
+
+1. [Part 1: Basic Analysis](##Part 1: Basic Analysis)
+
 ## Part 1: Basic Analysis
 
 ### A. Transport Layer Protocol Analysis
@@ -130,7 +134,9 @@ Finally, we could inspect the DNS traffic by applying the filter `dns`on Wiresha
 <ins>**Comments**</ins>. The source IP address `192.168.2.56` is making repeated DNS queries to the Google DNS server `8.8.8.8`. The domain being queried is `network.santasbigcandycane.cx`. This domain name is unusual and does not appear to be associated with any legitimate service or website. Such domains can often be linked to malicious activities. Finally, the repeated queries for the same domain could indicate automated behavior, possibly from a malware-infected device that is trying to communicate with a control server.
 
 
+## Part 3: Demonstrate Network Security Measures
 
+For Part 3 we are required to use the two VMs that were used for Labs 2 and 3.
 
 
 
