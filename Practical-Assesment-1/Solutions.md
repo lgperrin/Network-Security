@@ -36,14 +36,6 @@ Based on the Protocol Hierarchy statistics provided from Wireshark, here's what 
 
 5. **Domain Name System (DNS)**: DNS traffic, which uses UDP, accounts for $16.8$% of the packets but only $2.9$% of the total bytes, which aligns with the typical behavior of DNS traffic being frequent but small in size.
 
-| Protocol      | Percentage of Packets | Percentage of Bytes | Observations                                         |
-|:-------------:|:---------------------:|:-------------------:|-----------------------------------------------------|
-| **TCP**       | 83.2%                 | 83.7%               | Majority of the traffic, suggesting reliable sessions|
-| **UDP**       | 16.8%                 | 16.8%               | Used for services requiring fast delivery, like DNS  |
-| **Telnet**    | 17.7% of TCP packets  | 59.6% of TCP bytes  | Significant, possibly indicating Mirai activity      |
-| **HTTP**      | Not Applicable        | 5.7%                | Web activity or potential web-based C2 communications|
-| **DNS**       | 16.8% of UDP packets  | 2.9%                | Frequent but small packets typical for DNS           |
-
 <ins>**Comments**</ins>. Given this data, we could state that the network traffic captured is predominantly TCP-based with a significant amount of Telnet traffic, which could be indicative of Mirai malware activity since Mirai is known to exploit Telnet. The presence of substantial HTTP traffic suggests regular web activity or potential web-based C2 mechanisms. The relatively high number of DNS packets compared to their byte size is consistent with normal network behavior, as DNS queries are generally frequent but small in packet size.
 
 ### 1.2 Identify All IP Addresses
