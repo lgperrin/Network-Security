@@ -13,6 +13,7 @@
   - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
+- [Conclusions](#conclusions)
 
 
 ## Part 1: Basic Analysis
@@ -149,6 +150,10 @@ Finally, we could inspect the DNS traffic by applying the filter `dns`on Wiresha
 
 For Part 3 we are required to use the two VMs that were used for Labs 2 and 3.
 
+
+## Conclusions
+
+From the Parts 1 and 2, we can state that the network traffic analysis uncovers substantial evidence of potentially malicious activities, including significant Telnet traffic that might indicate Mirai malware activity, attempts to download malware, and potential SYN flood attack signs. Also, the usage of AWS IPs and repeated DNS queries to an unusual domain suggest potential command and control activities. 
 
 
 
