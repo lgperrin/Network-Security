@@ -31,7 +31,7 @@ You are required to submit two pieces of assessment.
 | **Case Study Report**          | $60$%   (a written report submission)    |
 
 
-**The overall module pass mark is 40%**. The practical exercise requires you to demonstrate the use of security tools for network analysis and network protection tasks. This will cover topics 1-4 and the practice lab exercises. The case study report requires you to analyse a scenario describing a company’s network. In your report you must propose how the company should improve their network security. This assessment covers all topics.
+<ins>**The overall module pass mark is 40%**</ins>. The practical exercise requires you to demonstrate the use of security tools for network analysis and network protection tasks. This will cover topics 1-4 and the practice lab exercises. The case study report requires you to analyse a scenario describing a company’s network. In your report you must propose how the company should improve their network security. This assessment covers all topics.
 
 
 
