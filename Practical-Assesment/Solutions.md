@@ -22,7 +22,7 @@
 
 From the _Statistics_ $>$ _Protocol Hierarchy_ section we get:
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-22%20114059.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-22%20114059.png)
 
 Based on the Protocol Hierarchy statistics provided from Wireshark, here's what we can derive for task 1.A:
 
@@ -47,7 +47,7 @@ In order to identify all IP addresses involved in the packet capture, we will fo
 3. Select "_Endpoints_" from the drop-down menu.
 4. In the Endpoints window, we can click on the "_IPv4_" tab to list all the unique IPv4 addresses. This information can be exported by clicking the "_Copy_" button at the bottom of the Endpoints window and select "_… as CSV_" to copy the details in a CSV format that can be pasted into a spreadsheet or other document. This will give us a list of all IP addresses that have sent or received packets during the capture. If we want to narrow it down to only certain types of traffic, we can apply a display filter before opening the Endpoints window.
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20101902.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-23%20101902.png)
 
 <ins>**Comments**</ins>. From the screenshot we can see there are six unique IPv4 addresses in our `Assessment-1.cap` file along with associated data, such as the number of packets, bytes transmitted and received, and in some cases, additional information like country, city, latitude, longitude, AS number, and organization. Interesting facts we can get from this:
 
@@ -80,7 +80,7 @@ In this section, we have to identify a diverse range of features from the captur
 
 The Capture File Properties provide information about the packet capture (pcap) file. We can get this info by opening _Statistics -> Capture File Properties_:
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20104930.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-23%20104930.png)
 
 <ins>**Comments**</ins>. The path shows that the file is stored in the `OneDrive/Documents/Network Security` directory, indicating it may be related to a network security assessment or exercise. The file is $508$ KB, which suggests a moderate amount of captured data, and it's also "_hashed_" as it appears some cryptographic hash functions, like SHA256 and SHA-1, which might be used to verify the integrity of the file. On the other hand, the file is in standard Wireshark format (`.pcap`) and the data it contains is encapsulated using Ethernet, indicating that the capture was taken from a network using Ethernet technology. The maximum packet size that was captured is $65535$ bytes, which is the maximum Ethernet frame size and the capture duration was about 30 minutes, starting from `19:18:31` and ending at `19:48:42` on September 30, 2016. Some other statistics are:
 
@@ -96,13 +96,13 @@ The Capture File Properties provide information about the packet capture (pcap) 
 
 In the top pane, we can select the first packet and expand the TCP information in the middle pane.
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20110704.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-23%20110704.png)
 
 <ins>**Comments**</ins>. The source TCP port is `55392`, meanwhile the destination port is `23`, which is commonly used for Telnet, a protocol used to provide a command-line interface for communication with a remote device. The use of port $23$ could suggest that the packet is part of an attempt to establish a Telnet connection, which is often not secure because it transmits data, including passwords, in plaintext. Now, we can apply the source port of the first packet as a filter in order to see how many packets are displayed when the filter is applied. There are 28 packets.
 
 On the other side, and in the context of a network capture file analyzed with Wireshark, TCP conversations represent the back-and-forth communication between two endpoints over the Transmission Control Protocol (TCP). Each conversation is a distinct stream of packets sharing a common source and destination IP address, as well as a pair of ports – one for the source (Port A) and one for the destination (Port B). We can get this information by opening _Statistics -> Conversations -> TCP_.
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20122204.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-23%20122204.png)
 
 <ins>**Comments**</ins>. We can see that there are 61 TCP conversations, most of them having the port `80` as the most frequent for the field _Port B_. Port $80$ being the most common Port B indicates that the majority of these conversations are directed towards a web server, as Port $80$ is the default port for HTTP traffic, which is unencrypted web traffic. The presence of other conversations where Port B is $23$ indicates that there are a few instances of communication with a Telnet service. Telnet operates on Port $23$ and is used for remote command-line interface access and it is generally considered insecure (as we mentioned before) because it transmits data in plaintext, without encryption.
 
@@ -112,7 +112,7 @@ So, **what can be said about the TCP conversations?** In the context of a networ
 
 **What URL does the attack attempt to use?** To find out which URL an attack is attempting to use in a pcap file, we'll need to look for an HTTP GET request, as this is the method used by web browsers and other clients to request data from servers. One approach is to use the "_Filter_" bar at the top of the main Wireshark window to filter the displayed packets and enter the filter expression `http.request.method == "GET"` to show only the HTTP GET requests. Then, expand the '_Hypertext Transfer Protocol_' field to view the full HTTP request, including the requested URL. After that, we can select the menu item _Analyze → Follow → TCP Stream_. The only HTTP Get Request packet we get is the following:
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20111756.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-23%20111756.png)
 
 <ins>**Comments**</ins>. The HTTP GET request is attempting to access a resource at the URL path `/bins/mirai.arm7`. The destination IP address is `13.51.81.212`, which previously was identified as belonging to the Amazon Web Services (AWS) range. This suggests that the requested resource is hosted on a server within AWS. On the other hand, the specific path `/bins/mirai.arm7` indicates that the request is for a file named `mirai.arm7` located in a directory named "_bins_". The `.arm7` suffix suggests that this file is compiled for ARMv7 architecture, which is commonly used in mobile devices and embedded systems. The name "_mirai_" is associated with a well-known malware strain that targets IoT devices. Once infected, devices are conscripted into a botnet that can be used for various malicious activities, including large-scale distributed denial-of-service (DDoS) attacks.
 
@@ -137,7 +137,7 @@ This suggests that the <ins>IP address being targeted by the attempted DoS (Deni
 
 Finally, we could inspect the DNS traffic by applying the filter `dns`on Wireshark, from which we get:
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20125422.png)
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-23%20125422.png)
 
 <ins>**Comments**</ins>. The source IP address `192.168.2.56` is making repeated DNS queries to the Google DNS server `8.8.8.8`. The domain being queried is `network.santasbigcandycane.cx`. This domain name is unusual and does not appear to be associated with any legitimate service or website. Such domains can often be linked to malicious activities. Finally, the repeated queries for the same domain could indicate automated behavior, possibly from a malware-infected device that is trying to communicate with a control server.
 
