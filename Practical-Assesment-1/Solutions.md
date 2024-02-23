@@ -46,8 +46,7 @@ To complete task 1B, where we need to identify all IP addresses involved in the 
 | IP Address       | Description |
 |------------------|-------------|
 | `8.8.8.8`        | This is a public DNS server provided by Google. It's widely used for resolving domain names to IP addresses. |
-| `13.51.81.207`   | This address belongs to the Amazon Web Services (AWS) range. It could be hosting services or applications. |
-| `13.51.81.212`   | This address belongs to the Amazon Web Services (AWS) range. It could be hosting services or applications. |
+| `13.51.81.207` and `13.51.81.212`   | This address belongs to the Amazon Web Services (AWS) range. It could be hosting services or applications. |
 | `65.222.202.53`  | Without additional context, it's not clear what this IP is used for. However, it could be related to a service provider or a private entity based on the network infrastructure. |
 | `109.184.144.30` | This is likely an IP address located in Europe based on the numeric range, but without additional data or context, its use is not clear. |
 | `192.168.2.56`   | This is a private IP address, commonly used within private networks. This address is not routable on the public internet and is typically used for local network devices. |
@@ -55,7 +54,15 @@ To complete task 1B, where we need to identify all IP addresses involved in the 
 
 ### C. Host and Network Insights
 
+**How can we identify the host IP?** By looking for the IP address with the most packets sent and received, as this is often the host machine where the capture was taken. In network captures, the host typically has the most traffic because it communicates with multiple external IP addresses. In the provided data, the IP address `192.168.2.56` has the highest number of packets, which suggests it could be the host of the capture.
 
+**Are there any other IPs in the same network which might be interesting?** We can seek for any other IPs which are part of the subnet from the host IP. For example, private IP addresses like `192.168.x.x` are typically on the same subnet and belong to the same local network. However, there aren't any other private addresses which follow that IP structure, so we can state that `192.168.2.56` is the only local network IP address captured.
+
+**Can we state any insights that might be inferred about other host IP addresses which might be useful in understanding the behaviour of the malware?** Of course, concretely:
+
+* The connections to `8.8.8.8` indicate that the host is using Google’s DNS, which is common for both benign and malicious activities.
+* The AWS IPs (`13.51.81.207` and `13.51.81.212`) could be significant if they are not expected within the network's normal traffic; they might be related to C2 communication or there might be hosting a service that interacts with the malware.
+* The absence of additional context about the addresses `65.222.202.53` and `109.184.144.30` makes it difficult to draw definitive conclusions, but their interactions with the host may warrant further investigation, especially if the traffic volume is anomalous or if there are connections on unusual ports.
 
 
 
