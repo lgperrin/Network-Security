@@ -16,10 +16,6 @@ b. Identify all IP addresses involved in the capture.
 
 c. State the IP address of the host where the capture was taken, as well as any other IP addresses that you think belong to the same network. Briefly, state any insights that might be inferred about other host IP addresses that you think is useful in understanding the behaviour of the malware.
 
-### C. Host and Network Insight
-
-**Objective**: Deduce the capturing host's IP address by identifying the most common local address or based on the capture file's context. Also, provide insights into the IP addresses, such as potential local network ranges or external addresses that may indicate command and control servers or other relevant entities.
-
 ## Part 2: Advanced Analysis
 
 Identify a diverse range of features from the capture that provide clear evidence of network activity and network Indicators of Compromise (IOC) associated with Mirai network activity. This part of the video should take you 2-3 minutes to present.
