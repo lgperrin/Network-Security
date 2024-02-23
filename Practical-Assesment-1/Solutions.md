@@ -144,7 +144,13 @@ Finally, we could inspect the DNS traffic by applying the filter `dns`on Wiresha
 
 ## Part 3: Demonstrate Network Security Measures
 
-For Part 3 we are required to use the two VMs that were used for Labs 2 and 3.
+For Part 3 we are required to use the two VMs that were used for Labs 2 and 3. This task involves leveraging the network activity and Indicators of Compromise (IoCs) identified in Part 2 to craft and send test packets between the VMs. Here’s a summarized plan of action:
+
+1. **Creating Test Packets**: Utilize `hping3` to generate test packets that mimic the key characteristics of the network activity observed in Part 2. These packets should simulate the malicious traffic patterns or IoCs identified during your analysis, such as specific TCP/UDP ports used, packet sizes, or frequency.
+
+2. **Implementing Security Measures**: Choose appropriate network security tools available within the VMs to demonstrate how we would detect and protect a real network against the Mirai variant observed. This could involve configuring firewalls, intrusion detection systems, or other security mechanisms to identify and mitigate the simulated attack traffic.
+
+3. **Evaluation of Security Measures**: Discuss the advantages and disadvantages of the security measures we've implemented. Consider their effectiveness against the Mirai malware, potential impacts on network performance, false positives/negatives, and any limitations they may have in a real-world scenario.
 
 
 ## Conclusions
