@@ -68,7 +68,7 @@ To complete task 1B, where we need to identify all IP addresses involved in the 
 
 In this section, we have to identify a diverse range of features from the capture that provide clear evidence of network activity and network Indicators of Compromise (IOC) associated with Mirai network activity.
 
-### Capture File Properties 
+### 2.1 Capture File Properties 
 
 The Capture File Properties provide information about the packet capture (pcap) file. We can get this info by opening _Statistics -> Capture File Properties_:
 
@@ -84,7 +84,7 @@ The Capture File Properties provide information about the packet capture (pcap) 
 * The average bytes per second is $265$, which could be considered low, indicating not a very high traffic volume during the capture period.
 * The bit rate is $2129$ bits per second, which again suggests a <ins>low traffic volume</ins>.
 
-### TCP Port 
+### 2.2 TCP Port 
 
 ![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20110704.png)
 
@@ -96,7 +96,7 @@ In the top pane, we can select the first packet and expand the TCP information i
 
 So, what can be said about the TCP conversations? In the context of a network security assessment or an analysis for malicious activity, the numerous communications on Port $80$ indicate a predominance of web traffic within the network, whereas communications on Port $23$, used for Telnet, could signify potential security concerns, as Telnet is inherently insecure and its use may imply attempts at unauthorized access or device control within the network.
 
-### HTTP GET Request 
+### 2.3 HTTP GET Request 
 
 **What URL does the attack attempt to use?** To find out which URL an attack is attempting to use in a pcap file, we'll need to look for an HTTP GET request, as this is the method used by web browsers and other clients to request data from servers. One approach is to use the "_Filter_" bar at the top of the main Wireshark window to filter the displayed packets and enter the filter expression `http.request.method == "GET"` to show only the HTTP GET requests. Then, expand the '_Hypertext Transfer Protocol_' field to view the full HTTP request, including the requested URL. After that, we can select the menu item _Analyze → Follow → TCP Stream_. The only HTTP Get Request packet we get is the following:
 
@@ -105,6 +105,33 @@ So, what can be said about the TCP conversations? In the context of a network se
 <ins>**Comments**</ins>. The HTTP GET request is attempting to access a resource at the URL path `/bins/mirai.arm7`. The destination IP address is `13.51.81.212`, which previously was identified as belonging to the Amazon Web Services (AWS) range. This suggests that the requested resource is hosted on a server within AWS. On the other hand, the specific path `/bins/mirai.arm7` indicates that the request is for a file named `mirai.arm7` located in a directory named "_bins_". The `.arm7` suffix suggests that this file is compiled for ARMv7 architecture, which is commonly used in mobile devices and embedded systems. The name "_mirai_" is associated with a well-known malware strain that targets IoT devices. Once infected, devices are conscripted into a botnet that can be used for various malicious activities, including large-scale distributed denial-of-service (DDoS) attacks.
 
 The fact that a GET request for `mirai.arm7` is present in the network traffic may indicate that the host with IP address `192.168.2.56` is involved in downloading malware or could be part of it. Given the context of the capture, this GET request could be a significant indicator of compromise or an attempt to infect or control a device within the network. 
+
+### 2.4 Detecting TCP SYN Floods Attacks
+
+These attacks try to fill the state table in a firewall or try to overwhelm a server's buffer. To detect SYN floods using Wireshark, we can apply the following steps:
+
+1. **Identify Excessive SYN Packets**. Apply the display filter `tcp.flags.syn == 1 && tcp.flags.ack == 0` to view only the SYN packets that do not have the ACK flag set. These packets represent connection initiation requests. There are $111$ packets that areattempting to establish new connections, which could be legitimate traffic or could be part of a SYN flood attack if these attempts are not completing the TCP three-way handshake.
+   
+3. **Examine Responses**. Next, we'll want to identify the server's responses with the filter `tcp.flags.syn == 1 && tcp.flags.ack == 1`. This filter shows SYN/ACK packets, which are the server's way of acknowledging the SYN requests. There are $36$ packets that are responses to the initial connection attempts.
+
+In a SYN flood attack, we would expect to see a large number of SYN packets compared to SYN/ACK packets because the attacker does not complete the TCP handshake. Since the number of SYN-ACK Packets is significantly less than the number of initial SYNs, it suggests that some initial SYNs did not receive a response, possibly due to the server being overwhelmed or a filtering mechanism in place, as it happens in SYN flood attacks. Finally and based on the information from the SYN and SYN-ACK packets:
+
+* The most common destination IP address for the initial SYN packets (indicative of outgoing connection attempts) is `65.222.202.53`.
+* The most common source IP address for the SYN-ACK packets (indicative of responses to connection attempts) is also `65.222.202.53`.
+
+This suggests that the <ins>IP address being targeted by the attempted DoS (Denial of Service)</ins> is `65.222.202.53` as it is receiving numerous SYN packets from an internal IP address (`192.168.2.56`) but is only able to send back a smaller number of SYN-ACK packets in response.
+
+### 2.5 DNS Traffic
+
+Finally, we could inspect the DNS traffic by applying the filter `dns`on Wireshark, from which we get:
+
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment-1/Images/Captura%20de%20pantalla%202024-02-23%20125422.png)
+
+<ins>**Comments**</ins>. The source IP address `192.168.2.56` is making repeated DNS queries to the Google DNS server `8.8.8.8`. The domain being queried is `network.santasbigcandycane.cx`. This domain name is unusual and does not appear to be associated with any legitimate service or website. Such domains can often be linked to malicious activities. Finally, the repeated queries for the same domain could indicate automated behavior, possibly from a malware-infected device that is trying to communicate with a control server.
+
+
+
+
 
 
 
