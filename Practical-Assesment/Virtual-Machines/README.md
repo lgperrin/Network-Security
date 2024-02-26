@@ -34,7 +34,7 @@ For Xubuntu2 (VM2) we repeat the steps for VM1, but assign the IP address `192.1
 
 2.1 **Verify network connectivity between VMs using `ping`**. This part aims to validate the network connection between the two VMs by sending and observing ping packets. The VM2 is going to be the sender and VM1 is going to be the observer.
 
-* <ins>Sending Ping Packets<7ins>. Open a terminal in VM2. To send a specified number of ping packets to VM1, use the command: `ping -c [number] 192.168.1.1`. Replace `[number]` with the number of ping packets you wish to send. If you don't specify a number with `-c`, the ping command will run indefinitely. Use `Ctrl+c` to stop it.
+* <ins>Sending Ping Packets</ins>. Open a terminal in VM2. To send a specified number of ping packets to VM1, use the command: `ping -c [number] 192.168.1.1`. Replace `[number]` with the number of ping packets you wish to send. If you don't specify a number with `-c`, the ping command will run indefinitely. Use `Ctrl+c` to stop it.
   
 * <ins>Steps for VM1 (Observer)</ins>. We'll need to setup Wireshark in order to observe ping packets sent by VM2. First, open a terminal and launch Wireshark with administrative privileges: `sudo wireshark`. In Wireshark, double-click on the `enp0s8` interface to begin capturing packets. Close the terminal window as it's no longer needed for input. While Wireshark is capturing, return to VM2 and send ping packets to VM1 again. In Wireshark on VM1, you should observe the ICMP request and reply packets indicating a successful ping operation.
 
