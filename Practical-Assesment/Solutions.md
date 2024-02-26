@@ -13,9 +13,10 @@
   - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
-  - [3.1 Creating Test Packets](#creating-test-packets)
-  - [3.2 Network Security Measures](#network-security-measures)
-  - [3.3 Demonstration and Validation](#demonstration-and-validation)
+  - [3.1 Understanding Mirai and Its IOCs](#understanding-mirai-and-its-iocs)
+  - [3.2 Creating Test Packets](#creating-test-packets)
+  - [3.3 Network Security Measures](#network-security-measures)
+  - [3.4 Demonstration and Validation](#demonstration-and-validation)
 - [Conclusions](#conclusions)
 
 
@@ -147,6 +148,13 @@ Finally, we could inspect the DNS traffic by applying the filter `dns`on Wiresha
 
 ## Part 3: Demonstrate Network Security Measures
 
+### 3.1 Understanding Mirai and Its IOCs
+
+Before we start crafting packets or implementing security measures, we must ensure we have a clear understanding of:
+
+- [x] The behavior of Mirai or the specific malware you analyzed, focusing on its network activity patterns.
+- [x] Key IOCs identified in Part 2, such as specific ports targeted, packet types, or unique characteristics of the malware’s communication.
+
 Based on the detailed analysis from Part 2, we can identify several Indicators of Compromise (IOCs) and propose network security measures to detect and protect against activities similar to those observed, specifically in relation to Mirai malware and potential SYN flood attacks. The IOCs derived from Part 2 include:
 
 | Indicator                               | Description                                                                                      |
@@ -157,27 +165,33 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
-### 3.1 Creating Test Packets
+### 3.2 Creating Test Packets
 
-To simulate these IOCs, use hping3 on one VM to generate test packets mimicking these behaviors, sending them to the other VM:
+Based on our understanding of Mirai’s IOCs, we use `hping3` to create packets that mimic those key features. Here's how to simulate each indicator:
 
 1. **Telnet Traffic Simulation**: `hping3 -c 5 -S 192.168.1.2 -p 23 -s 55392`. This sends 5 SYN packets to simulate an attempt to establish a Telnet connection.
 2. **SYN Flood Attack Simulation**: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
 3. **Mirai Payload Request Simulation**: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
 
-### 3.2 Network Security Measures
+### 3.3 Network Security Measures
 
-| Network Security Measure  | Description                                                                                                  | Pros                                             | Cons                                                                  |
-|---------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------|-----------------------------------------------------------------------|
-| Intrusion Detection System (IDS) | Utilize Snort to monitor for the specific IOCs, such as traffic to Telnet port 23, specific payloads in HTTP GET requests, and patterns indicative of SYN flood attacks. | Can detect a wide range of attacks.              | May generate false positives; requires regular updates and tuning.    |
-| Firewall Configuration    | Implement rules to block incoming traffic on known vulnerable ports like 23 (Telnet) when not in use.        | Effective at stopping unauthorized access.       | May block legitimate traffic if not configured properly.              |
-| Rate Limiting             | Configure network devices to limit the rate of incoming SYN packets to mitigate SYN flood attacks.           | Can prevent servers from being overwhelmed by SYN floods. | Legitimate traffic spikes might be inadvertently blocked.            |
-| DNS Query Monitoring      | Monitor and alert on repeated DNS queries for unusual domains, indicating potential C2 communication.        | Can catch malware trying to contact control servers. | Requires maintaining a list of suspicious domains; legitimate domains might occasionally trigger alerts. |
+Given the IOCs, the following security measures can be implemented:
+
+| Category                        | Action                                                                                                               | Effectiveness and Limitations                                                                                                                                                          | Presentation Tips                                                                                                                                                                 |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Firewall Rules**              | - Block TCP traffic on Telnet port (23) and other non-standard ports unless required.                                | - Effective at blocking unauthorized access and limiting exposure to known malicious IP addresses but require regular updates.                                                        | - Visual Demonstrations: Show configuration and results.                                                                                                                         |
+|                                 | - Implement strict firewall rules to limit incoming and outgoing connections based on necessity.                     |                                                                                                                                                                                      | - Clear Explanations: Explain each IOC and measure.                                                                                                                              |
+| **Intrusion Detection System (IDS)** | - Configure an IDS to detect excessive SYN packets and unusual patterns of traffic.                                 | - Can effectively detect patterns of malicious activity but may generate false positives. Requires tuning for balance.                                                                | - Effectiveness Proof: Present testing evidence.                                                                                                                                  |
+|                                 | - Use the IDS to monitor for patterns indicative of Mirai, such as HTTP GET requests for malware payload locations. |                                                                                                                                                                                      |                                                                                                                                                                                  |
+| **Rate Limiting and Traffic Analysis** | - Apply rate limiting to mitigate the impact of SYN flood attacks.                                                   | - Helps mitigate the impact of DoS attacks but must be carefully configured to avoid disrupting legitimate traffic.                                                                   |                                                                                                                                                                                  |
+|                                 | - Perform regular traffic analysis to identify and investigate unusual traffic patterns or spikes.                   |                                                                                                                                                                                      |                                                                                                                                                                                  |
+| **DNS Monitoring**              | - Monitor DNS queries to identify repeated requests to unusual or suspicious domains.                                | - Crucial for detecting C2 communication but relies on having up-to-date threat intelligence.                                                                                        |                                                                                                                                                                                  |
+| **Testing and Validation**      | - Use `hping3` and other tools to test the network's resilience against simulated attacks.                             | - Demonstrates the practical effectiveness of implemented security measures.                                                                                                          | - Use screenshots or live demos for demonstrations.                                                                                                                               |
 
 
-### 3.3 Demonstration and Validation
+### 3.4 Demonstration and Validation
 
-To demonstrate and validate these measures:
+After implementing your security measures, use `hping3` to send test packets again and observe the outcome. This will help us validate the effectiveness of our security implementations. We'll use Wireshark to monitor the network traffic and verify that your measures are blocking or detecting the test packets as expected. To demonstrate and validate these measures:
 
 * Use Snort to monitor for alerts triggered by the test packets you've sent. This proves the IDS can detect the simulated attack patterns.
 * Show firewall logs or configurations as evidence that the traffic on blocked ports is being successfully filtered.
@@ -187,6 +201,10 @@ To demonstrate and validate these measures:
 
 From the Parts 1 and 2, we can state that the network traffic analysis uncovers substantial evidence of potentially malicious activities, including significant Telnet traffic that might indicate Mirai malware activity, attempts to download malware, and potential SYN flood attack signs. Also, the usage of AWS IPs and repeated DNS queries to an unusual domain suggest potential command and control activities. 
 
+From Part 3, we can state:
 
-
+ * Firewall Rules are effective at blocking unauthorized access and limiting exposure to known malicious IP addresses but require regular updates to stay effective against new threats.
+ * Intrusion Detection Systems can effectively detect patterns of malicious activity but may generate false positives and require tuning to balance sensitivity and specificity.
+ * Rate Limiting helps mitigate the impact of DoS attacks but must be carefully configured to avoid disrupting legitimate traffic.
+ * DNS Monitoring is crucial for detecting C2 communication but relies on having up-to-date threat intelligence to distinguish between benign and malicious queries.
 
