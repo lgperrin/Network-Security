@@ -29,7 +29,7 @@ Identify a diverse range of features from the capture that provide clear evidenc
 
 For Part 3 you are required to use the two VMs that were used for Labs 2 and 3. This part of the video should take you 2-3 minutes to present.
 
-* Using the network activity and Indicators of Compromise identified in your answer for Part 2, use hping3 to create test packets that replicate those key features. hping3 will allow you to send created packets from one VM to the other.
+* Using the network activity and Indicators of Compromise identified in your answer for Part 2, use `hping3` to create test packets that replicate those key features. `hping3` will allow you to send created packets from one VM to the other.
 * Using whatever network security tools that you think are appropriate within the existing VM environment, propose and demonstrate network security measures that you would implement in a real network to provide protection and detection against the version of Mirai that you observed in the packet capture.
 * Briefly explain any pros or cons of your proposed network security measures, i.e. how effective you think each of your proposed measures would be against Mirai.
 * For guidance, the test packets you create with hping3 do not have to perfectly replicate the packets seen in the original packet capture. The expectation is that you create packets with features that are sufficiently similar to allow for meaningful testing of your security measures.
