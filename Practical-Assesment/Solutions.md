@@ -169,7 +169,14 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 
 Based on our understanding of Mirai’s IOCs, we use `hping3` to create packets that mimic those key features. Here's how to simulate each indicator:
 
-1. **Telnet Traffic Simulation**: `hping3 -c 5 -S 192.168.1.2 -p 23 -s 55392`. This sends 5 SYN packets to simulate an attempt to establish a Telnet connection.
+1. **Telnet Traffic Simulation**: From VM1 `sudo hping3 -S -c 4 192.168.1.2 -p 23`. This sends 4 SYN packets to simulate an attempt to establish a Telnet connection with VM2.
+  * `-S`: Sets the SYN flag, which is appropriate for simulating connection attempts like those made by Telnet or other services when initiating a session.
+  * `-c 4`: Sends 4 packets, which is similar to your original command.
+  * `192.168.1.2`: Targets the VM2 IP address, assuming VM2 is the intended recipient of the simulated traffic.
+  * `-p 23`: Correctly targets port 23, the default port for Telnet services.
+
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-26%20163520.png)
+    
 2. **SYN Flood Attack Simulation**: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
 3. **Mirai Payload Request Simulation**: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
 
