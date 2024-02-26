@@ -92,7 +92,8 @@ This can be done by using `hping3` as it's is a powerful tool for manual packet 
 * Test again from VM1 with hping3 targeting port 22. This time, you should observe responses indicating that the port is open.
 
 ### 4.3 Fine-tuning Firewall Rules
-* To deny access to port 22 from a specific IP (e.g., `192.168.1.1`), first create a deny rule for that IP, then allow general access to the port. This demonstrates the importance of rule order, as rules are processed top-down.
+
+To deny access to port 22 from a specific IP (e.g., `192.168.1.1`), first create a deny rule for that IP, then allow general access to the port. This demonstrates the importance of rule order, as rules are processed top-down.
 
 
 
