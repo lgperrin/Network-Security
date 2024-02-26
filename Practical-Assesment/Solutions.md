@@ -169,7 +169,9 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 
 Based on our understanding of Mirai’s IOCs, we use `hping3` to create packets that mimic those key features. Here's how to simulate each indicator:
 
-1. **Telnet Traffic Simulation**: From VM1 `sudo hping3 -S -c 4 192.168.1.2 -p 23`. This sends 4 SYN packets to simulate an attempt to establish a Telnet connection with VM2.
+#### Telnet Traffic Simulation 
+
+From VM1 `sudo hping3 -S -c 4 192.168.1.2 -p 23`. This sends 4 SYN packets to simulate an attempt to establish a Telnet connection with VM2.
   * `-S`: Sets the SYN flag, which is appropriate for simulating connection attempts like those made by Telnet or other services when initiating a session.
   * `-c 4`: Sends 4 packets, which is similar to your original command.
   * `192.168.1.2`: Targets the VM2 IP address, assuming VM2 is the intended recipient of the simulated traffic.
@@ -183,9 +185,22 @@ Based on our understanding of Mirai’s IOCs, we use `hping3` to create packets 
 
 - [ ] **Cons**: If there are legitimate needs for using port $23$, the current configuration may impede necessary access. Continuous RST packets could also indicate that a service is down or misconfigured, which requires administrative attention.
     
-2. **SYN Flood Attack Simulation**: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
+#### SYN Flood Attack Simulation
+
+To simulate a SYN Flood Attack as part of Part 3, we can use `hping3` to send a large number of SYN packets to a specific port on a target machine within our virtual environment. This will mimic the behavior of a SYN Flood Attack, which is designed to exhaust the server’s resources by not completing the three-way handshake process.
+
+We shall use `sudo hping3 --flood --syn 192.168.1.2 -p 23 -s 55392` from VM1, which will send a flood of SYN packets until we decide to stop it manually using `Ctrl+C`.
+
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-26%20165021.png)
+
+**Comments**. The simulation of the SYN flood attack was successful as evidenced by the number of packets sent and the corresponding entries in the Wireshark capture. The command indicates that $15009$ packets were transmitted from VM1 to VM2, which represents a high volume of traffic typically associated with a SYN flood attack. The VM2's response with RST packets suggests that either the port is closed, there is no service listening, or there are defense mechanisms in place that are effectively mitigating the attack by refusing the connection. If VM2 had been unresponsive, or if there had been a significant delay in the response, it would suggest that the SYN flood was potentially effective at exhausting resources. The immediate RST response indicates resilience against this type of attack, at least in the simulated environment.
   
-3. **Mirai Payload Request Simulation**: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
+#### Mirai Payload Request Simulation
+
+On VM1, we might construct a raw TCP packet with `hping3` that includes a payload resembling an HTTP GET request to the `/bins/mirai.arm7` path. Since `hping3` is limited in this capacity, the simulation won't be perfect, but it can mimic some aspects of the traffic. We would run something like this on VM1: sudo hping3 `192.168.1.2 -p 80 -S -P -A -d 100 -E http_get_request.txt` where the text file contains a raw HTTP GET request payload.
+
+
+
 
 ### 3.3 Network Security Measures
 
