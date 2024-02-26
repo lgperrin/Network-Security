@@ -13,10 +13,6 @@
   - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
-  - [3.1 Understanding Mirai and Its IOCs](#understanding-mirai-and-its-iocs)
-  - [3.2 Creating Test Packets](#creating-test-packets)
-  - [3.3 Network Security Measures](#network-security-measures)
-  - [3.4 Demonstration and Validation](#demonstration-and-validation)
 - [Conclusions](#conclusions)
 
 
@@ -165,75 +161,43 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
-### 3.2 Creating Test Packets
 
-Based on our understanding of Mirai’s IOCs, we use `hping3` to create packets that mimic those key features. Here's how to simulate each indicator:
+### 3.2 Proposed Network Security Measures
 
-#### Telnet Traffic Simulation 
+Based on the identified IOCs and the task requirements, we can propose the following network security measures from Labs 2 and 3:
 
-From VM1 `sudo hping3 -S -c 4 192.168.1.2 -p 23`. This sends 4 SYN packets to simulate an attempt to establish a Telnet connection with VM2.
-  * `-S`: Sets the SYN flag, which is appropriate for simulating connection attempts like those made by Telnet or other services when initiating a session.
-  * `-c 4`: Sends 4 packets, which is similar to your original command.
-  * `192.168.1.2`: Targets the VM2 IP address, assuming VM2 is the intended recipient of the simulated traffic.
-  * `-p 23`: Correctly targets port 23, the default port for Telnet services.
+1. **Firewall Configuration**: Implement firewall rules to block incoming and outgoing traffic on Telnet port ($23$) and restrict access to known malicious domains associated with Mirai.
 
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-26%20163520.png)
+2. **Intrusion Detection Systems (IDS)**: Deploy an IDS such as Snort to monitor network traffic for patterns indicative of Mirai malware, such as HTTP GET requests for Mirai payloads, excessive SYN packets, and repeated DNS queries to unusual domains.
 
-**Comments**. The terminal on the left indicates that `hping3` successfully transmitted 4 packets to the destination (`192.168.1.2`), with no packet loss. Wireshark shows packets with the TCP source port $22535$ and destination port $23$, which matches the Telnet port. This confirms that the simulated traffic was directed at the Telnet port. Interestingly, the lack of an established connection (no SYN/ACK response) shows that if this traffic was malicious, the attempt to use Telnet would have failed, demonstrating effective blocking of unauthorized access on this port. This means that the firewall appears to be effectively blocking unsolicited traffic to port $23$, as evidenced by the RST packets. However, we could ensure the firewall is configured to block traffic to all unnecessary ports.
+3. **Rule-Based Security**: Create custom Snort rules to detect and alert on specific Mirai-related network activity, including TCP traffic on Telnet port (23), HTTP GET requests for Mirai payloads, and SYN flood attacks.
 
-- [x] **Pros**: The network is not allowing the initiation of insecure Telnet sessions, reducing the risk of unauthorized access. RST packets are correctly being sent by the host, indicating that the port is secured and not participating in a handshake with unknown sources.
+4. **Signature-Based Detection**: Develop signatures for known Mirai command and control (C2) communication patterns, allowing the IDS to identify and respond to such activity.
 
-- [ ] **Cons**: If there are legitimate needs for using port $23$, the current configuration may impede necessary access. Continuous RST packets could also indicate that a service is down or misconfigured, which requires administrative attention.
-    
-#### SYN Flood Attack Simulation
-
-To simulate a SYN Flood Attack as part of Part 3, we can use `hping3` to send a large number of SYN packets to a specific port on a target machine within our virtual environment. This will mimic the behavior of a SYN Flood Attack, which is designed to exhaust the server’s resources by not completing the three-way handshake process.
-
-We shall use `sudo hping3 --flood --syn 192.168.1.2 -p 23 -s 55392` from VM1, which will send a flood of SYN packets until we decide to stop it manually using `Ctrl+C`.
-
-![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-26%20165021.png)
-
-**Comments**. The simulation of the SYN flood attack was successful as evidenced by the number of packets sent and the corresponding entries in the Wireshark capture. The command indicates that $15009$ packets were transmitted from VM1 to VM2, which represents a high volume of traffic typically associated with a SYN flood attack. The VM2's response with RST packets suggests that either the port is closed, there is no service listening, or there are defense mechanisms in place that are effectively mitigating the attack by refusing the connection. If VM2 had been unresponsive, or if there had been a significant delay in the response, it would suggest that the SYN flood was potentially effective at exhausting resources. The immediate RST response indicates resilience against this type of attack, at least in the simulated environment.
-  
-#### Mirai Payload Request Simulation
-
-On VM1, we might construct a raw TCP packet with `hping3` that includes a payload resembling an HTTP GET request to the `/bins/mirai.arm7` path. Since `hping3` is limited in this capacity, the simulation won't be perfect, but it can mimic some aspects of the traffic. We would run something like this on VM1: sudo hping3 `192.168.1.2 -p 80 -S -P -A -d 100 -E http_get_request.txt` where the text file contains a raw HTTP GET request payload.
+Now, let's address the task requirements by proposing and demonstrating network security measures against Mirai using `hping3` and Snort:
 
 
+### 3.3 Pros and Cons
 
+**Firewall Configuration**: 
+- [x] Pros: Provides a basic level of protection against unauthorized access attempts.
+- [ ] Cons: Limited effectiveness against sophisticated attacks and may require frequent updates to maintain effectiveness.
 
-### 3.3 Network Security Measures
+**IDS with Custom Rules**: 
+- [x] Pros: Can detect specific Mirai-related network activity.
+- [ ] Cons: Requires regular tuning and maintenance to minimize false positives and negatives.
 
-Given the IOCs, the following security measures can be implemented:
+**Signature-Based Detection**: 
+- [x] Pros: Effective at identifying known Mirai signatures.
+- [ ] Cons: Limited to detecting known patterns and may miss new variants of Mirai.
 
-| Category                        | Action                                                                                                               | Effectiveness and Limitations                                                                                                                                                          | Presentation Tips                                                                                                                                                                 |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Firewall Rules**              | - Block TCP traffic on Telnet port (23) and other non-standard ports unless required.                                | - Effective at blocking unauthorized access and limiting exposure to known malicious IP addresses but require regular updates.                                                        | - Visual Demonstrations: Show configuration and results.                                                                                                                         |
-|                                 | - Implement strict firewall rules to limit incoming and outgoing connections based on necessity.                     |                                                                                                                                                                                      | - Clear Explanations: Explain each IOC and measure.                                                                                                                              |
-| **Intrusion Detection System (IDS)** | - Configure an IDS to detect excessive SYN packets and unusual patterns of traffic.                                 | - Can effectively detect patterns of malicious activity but may generate false positives. Requires tuning for balance.                                                                | - Effectiveness Proof: Present testing evidence.                                                                                                                                  |
-|                                 | - Use the IDS to monitor for patterns indicative of Mirai, such as HTTP GET requests for malware payload locations. |                                                                                                                                                                                      |                                                                                                                                                                                  |
-| **Rate Limiting and Traffic Analysis** | - Apply rate limiting to mitigate the impact of SYN flood attacks.                                                   | - Helps mitigate the impact of DoS attacks but must be carefully configured to avoid disrupting legitimate traffic.                                                                   |                                                                                                                                                                                  |
-|                                 | - Perform regular traffic analysis to identify and investigate unusual traffic patterns or spikes.                   |                                                                                                                                                                                      |                                                                                                                                                                                  |
-| **DNS Monitoring**              | - Monitor DNS queries to identify repeated requests to unusual or suspicious domains.                                | - Crucial for detecting C2 communication but relies on having up-to-date threat intelligence.                                                                                        |                                                                                                                                                                                  |
-| **Testing and Validation**      | - Use `hping3` and other tools to test the network's resilience against simulated attacks.                             | - Demonstrates the practical effectiveness of implemented security measures.                                                                                                          | - Use screenshots or live demos for demonstrations.                                                                                                                               |
+**Network Monitoring with Wireshark**: 
+- [x] Pros: Allows for real-time monitoring and analysis of network traffic.
+- [ ] Cons - Reactive approach and may not provide proactive protection against Mirai attacks.
 
-
-### 3.4 Demonstration and Validation
-
-After implementing your security measures, use `hping3` to send test packets again and observe the outcome. This will help us validate the effectiveness of our security implementations. We'll use Wireshark to monitor the network traffic and verify that your measures are blocking or detecting the test packets as expected. To demonstrate and validate these measures:
-
-* Use Snort to monitor for alerts triggered by the test packets you've sent. This proves the IDS can detect the simulated attack patterns.
-* Show firewall logs or configurations as evidence that the traffic on blocked ports is being successfully filtered.
-* Demonstrate rate limiting by showing how the network responds to the SYN flood attack simulation, potentially through logs or performance monitoring tools.
 
 ## Conclusions
 
 From the Parts 1 and 2, we can state that the network traffic analysis uncovers substantial evidence of potentially malicious activities, including significant Telnet traffic that might indicate Mirai malware activity, attempts to download malware, and potential SYN flood attack signs. Also, the usage of AWS IPs and repeated DNS queries to an unusual domain suggest potential command and control activities. 
 
-From Part 3, we can state:
-
- * Firewall Rules are effective at blocking unauthorized access and limiting exposure to known malicious IP addresses but require regular updates to stay effective against new threats.
- * Intrusion Detection Systems can effectively detect patterns of malicious activity but may generate false positives and require tuning to balance sensitivity and specificity.
- * Rate Limiting helps mitigate the impact of DoS attacks but must be carefully configured to avoid disrupting legitimate traffic.
- * DNS Monitoring is crucial for detecting C2 communication but relies on having up-to-date threat intelligence to distinguish between benign and malicious queries.
-
+From Part 3 we can see that, overall, the proposed network security measures combine multiple layers of defense to mitigate the threat of Mirai malware, but each measure has its limitations and may require ongoing adjustments to remain effective against evolving threats.
