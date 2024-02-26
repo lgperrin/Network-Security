@@ -144,18 +144,19 @@ Finally, we could inspect the DNS traffic by applying the filter `dns`on Wiresha
 
 ## Part 3: Demonstrate Network Security Measures
 
-For Part 3 we are required to use the two VMs that were used for Labs 2 and 3. This task involves leveraging the network activity and Indicators of Compromise (IoCs) identified in Part 2 to craft and send test packets between the VMs. Here’s a summarized plan of action:
-
-1. **Creating Test Packets**: Utilize `hping3` to generate test packets that mimic the key characteristics of the network activity observed in Part 2. These packets should simulate the malicious traffic patterns or IoCs identified during your analysis, such as specific TCP/UDP ports used, packet sizes, or frequency.
-
-2. **Implementing Security Measures**: Choose appropriate network security tools available within the VMs to demonstrate how we would detect and protect a real network against the Mirai variant observed. This could involve configuring firewalls, intrusion detection systems, or other security mechanisms to identify and mitigate the simulated attack traffic.
-
-3. **Evaluation of Security Measures**: Discuss the advantages and disadvantages of the security measures we've implemented. Consider their effectiveness against the Mirai malware, potential impacts on network performance, false positives/negatives, and any limitations they may have in a real-world scenario.
+Based on the detailed analysis from Part 2, we can identify several Indicators of Compromise (IOCs) and propose network security measures to detect and protect against activities similar to those observed, specifically in relation to Mirai malware and potential SYN flood attacks. The IOCs derived from Part 2 include:
 
 
 ## Conclusions
 
 From the Parts 1 and 2, we can state that the network traffic analysis uncovers substantial evidence of potentially malicious activities, including significant Telnet traffic that might indicate Mirai malware activity, attempts to download malware, and potential SYN flood attack signs. Also, the usage of AWS IPs and repeated DNS queries to an unusual domain suggest potential command and control activities. 
 
+| Indicator                               | Description                                                                                      |
+|-----------------------------------------|--------------------------------------------------------------------------------------------------|
+| TCP Traffic on Telnet Port (23)         | High volumes of traffic, suggesting potential unauthorized access attempts.                     |
+| HTTP GET Request for Mirai Payload      | The specific request to `/bins/mirai.arm7` indicating malware download attempts.                |
+| Excessive SYN Packets                   | Indicative of SYN flood attacks aiming at Denial of Service.                                    |
+| Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
+| Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
 
