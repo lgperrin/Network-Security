@@ -13,9 +13,9 @@
   - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
-  - [3.1 Creating Test Packets with `hping3`](#Creating-Test-Packets-with-`hping3`)
-  - [3.2 Network Security Measures](#Network-Security-Measures)
-  - [3.3 Demonstration and Validation](#Demonstration-and-Validation)
+  - [3.1 Creating Test Packets](#creating-test-packets)
+  - [3.2 Network Security Measures](#network-security-measures)
+  - [3.3 Demonstration and Validation](#demonstration-and-validation)
 - [Conclusions](#conclusions)
 
 
@@ -157,7 +157,7 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
-### 3.1 Creating Test Packets with `hping3`
+### 3.1 Creating Test Packets
 
 To simulate these IOCs, use hping3 on one VM to generate test packets mimicking these behaviors, sending them to the other VM:
 
