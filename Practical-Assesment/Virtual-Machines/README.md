@@ -101,6 +101,8 @@ To deny access to port 22 from a specific IP (e.g., `192.168.1.1`), first create
 
 In Lab 3, we continue using the VMs from Practice Lab 2 to explore the basics of configuring rules in the network intrusion detection tool, Snort. This lab requires no prior knowledge of Linux, and step-by-step instructions are provided. The specific pipeline is:
 
+![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-26%20132306.png)
+
 1. **Setup**. Continue using the VMs from Practice Lab 2, ensuring VirtualBox and the necessary VMs are ready for use. Confirm network interface configurations from Lab 2 are applied, setting the groundwork for Snort monitoring.
 2. **Introduction to Snort Configuration**. Review the Snort configuration file (`snort.conf`) to understand the `HOME_NET` setting, which is crucial for rule definition and packet analysis within the specified network range.
 3. **Rule Configuration**. Access and modify the `local.rules` file to input custom Snort rules. This involves understanding and applying the syntax for rule creation, focusing on:
