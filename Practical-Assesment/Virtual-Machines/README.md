@@ -74,6 +74,7 @@ This can be done by using `hping3` as it's is a powerful tool for manual packet 
 
 ## 4. Firewall Configuration and Testing
 
+A network firewall is designed to examine each packet and decide if the packet should be allowed into the network or should be blocked.
 
 ### 4.1 Initial Setup and Basic Testing
 
