@@ -128,8 +128,7 @@ Ensure both VMs are configured with static IP addresses within the same subnet t
   * Disable the network interface: `sudo ifconfig enp0s8 down`
   * Assign IP address and network parameters: `sudo ifconfig enp0s8 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255`
 
-* **For VM2**:
-  * Assign a similar configuration with an IP address of `192.168.1.2`.
+* **For VM2**: Assign a similar configuration with an IP address of `192.168.1.2`.
 
 #### 1.2 Snort Configuration Review:
 
