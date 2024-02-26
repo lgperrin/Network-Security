@@ -176,8 +176,15 @@ Based on our understanding of Mirai’s IOCs, we use `hping3` to create packets 
   * `-p 23`: Correctly targets port 23, the default port for Telnet services.
 
 ![alt text](https://github.com/lgperrin/Network-Security/blob/main/Practical-Assesment/Images/Captura%20de%20pantalla%202024-02-26%20163520.png)
+
+**Comments**. The terminal on the left indicates that `hping3` successfully transmitted 4 packets to the destination (`192.168.1.2`), with no packet loss. Wireshark shows packets with the TCP source port $22535$ and destination port $23$, which matches the Telnet port. This confirms that the simulated traffic was directed at the Telnet port. Interestingly, the lack of an established connection (no SYN/ACK response) shows that if this traffic was malicious, the attempt to use Telnet would have failed, demonstrating effective blocking of unauthorized access on this port. This means that the firewall appears to be effectively blocking unsolicited traffic to port $23$, as evidenced by the RST packets. However, we could ensure the firewall is configured to block traffic to all unnecessary ports.
+
+- [x] **Pros**: The network is not allowing the initiation of insecure Telnet sessions, reducing the risk of unauthorized access. RST packets are correctly being sent by the host, indicating that the port is secured and not participating in a handshake with unknown sources.
+
+- [ ] **Cons**: If there are legitimate needs for using port $23$, the current configuration may impede necessary access. Continuous RST packets could also indicate that a service is down or misconfigured, which requires administrative attention.
     
 2. **SYN Flood Attack Simulation**: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
+  
 3. **Mirai Payload Request Simulation**: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
 
 ### 3.3 Network Security Measures
