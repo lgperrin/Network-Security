@@ -13,6 +13,9 @@
   - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
+  - [3.1 Creating Test Packets with `hping3`](#Creating-Test-Packets-with-`hping3`)
+  - [3.2 Network Security Measures](#Network-Security-Measures)
+  - [3.3 Demonstration and Validation](#Demonstration-and-Validation)
 - [Conclusions](#conclusions)
 
 
@@ -154,15 +157,15 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
-### Creating Test Packets with `hping3`
+### 3.1 Creating Test Packets with `hping3`
 
 To simulate these IOCs, use hping3 on one VM to generate test packets mimicking these behaviors, sending them to the other VM:
 
-1. Telnet Traffic Simulation: `hping3 -c 5 -S 192.168.1.2 -p 23 -s 55392`. This sends 5 SYN packets to simulate an attempt to establish a Telnet connection.
-2. SYN Flood Attack Simulation: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
-3. Mirai Payload Request Simulation: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
+1. **Telnet Traffic Simulation**: `hping3 -c 5 -S 192.168.1.2 -p 23 -s 55392`. This sends 5 SYN packets to simulate an attempt to establish a Telnet connection.
+2. **SYN Flood Attack Simulation**: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
+3. **Mirai Payload Request Simulation**: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
 
-### Network Security Measures
+### 3.2 Network Security Measures
 
 | Network Security Measure  | Description                                                                                                  | Pros                                             | Cons                                                                  |
 |---------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------|-----------------------------------------------------------------------|
@@ -172,7 +175,7 @@ To simulate these IOCs, use hping3 on one VM to generate test packets mimicking 
 | DNS Query Monitoring      | Monitor and alert on repeated DNS queries for unusual domains, indicating potential C2 communication.        | Can catch malware trying to contact control servers. | Requires maintaining a list of suspicious domains; legitimate domains might occasionally trigger alerts. |
 
 
-### Demonstration and Validation
+### 3.3 Demonstration and Validation
 
 To demonstrate and validate these measures:
 
