@@ -146,11 +146,6 @@ Finally, we could inspect the DNS traffic by applying the filter `dns`on Wiresha
 
 Based on the detailed analysis from Part 2, we can identify several Indicators of Compromise (IOCs) and propose network security measures to detect and protect against activities similar to those observed, specifically in relation to Mirai malware and potential SYN flood attacks. The IOCs derived from Part 2 include:
 
-
-## Conclusions
-
-From the Parts 1 and 2, we can state that the network traffic analysis uncovers substantial evidence of potentially malicious activities, including significant Telnet traffic that might indicate Mirai malware activity, attempts to download malware, and potential SYN flood attack signs. Also, the usage of AWS IPs and repeated DNS queries to an unusual domain suggest potential command and control activities. 
-
 | Indicator                               | Description                                                                                      |
 |-----------------------------------------|--------------------------------------------------------------------------------------------------|
 | TCP Traffic on Telnet Port (23)         | High volumes of traffic, suggesting potential unauthorized access attempts.                     |
@@ -158,5 +153,37 @@ From the Parts 1 and 2, we can state that the network traffic analysis uncovers 
 | Excessive SYN Packets                   | Indicative of SYN flood attacks aiming at Denial of Service.                                    |
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
+
+### Creating Test Packets with `hping3`
+
+To simulate these IOCs, use hping3 on one VM to generate test packets mimicking these behaviors, sending them to the other VM:
+
+1. Telnet Traffic Simulation: `hping3 -c 5 -S 192.168.1.2 -p 23 -s 55392`. This sends 5 SYN packets to simulate an attempt to establish a Telnet connection.
+2. SYN Flood Attack Simulation: `hping3 --flood -S 192.168.1.2 -p 80 --rand-source`. Sends a flood of SYN packets from random source addresses to simulate a SYN flood attack.
+3. Mirai Payload Request Simulation: For this, we might need to craft a packet that simulates an HTTP GET request for the Mirai payload. However, `hping3` primarily focuses on TCP/IP layers and may not directly support crafting specific HTTP requests without using raw IP mode to manually construct the packet.
+
+### Network Security Measures
+
+| Network Security Measure  | Description                                                                                                  | Pros                                             | Cons                                                                  |
+|---------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------|-----------------------------------------------------------------------|
+| Intrusion Detection System (IDS) | Utilize Snort to monitor for the specific IOCs, such as traffic to Telnet port 23, specific payloads in HTTP GET requests, and patterns indicative of SYN flood attacks. | Can detect a wide range of attacks.              | May generate false positives; requires regular updates and tuning.    |
+| Firewall Configuration    | Implement rules to block incoming traffic on known vulnerable ports like 23 (Telnet) when not in use.        | Effective at stopping unauthorized access.       | May block legitimate traffic if not configured properly.              |
+| Rate Limiting             | Configure network devices to limit the rate of incoming SYN packets to mitigate SYN flood attacks.           | Can prevent servers from being overwhelmed by SYN floods. | Legitimate traffic spikes might be inadvertently blocked.            |
+| DNS Query Monitoring      | Monitor and alert on repeated DNS queries for unusual domains, indicating potential C2 communication.        | Can catch malware trying to contact control servers. | Requires maintaining a list of suspicious domains; legitimate domains might occasionally trigger alerts. |
+
+
+### Demonstration and Validation
+
+To demonstrate and validate these measures:
+
+* Use Snort to monitor for alerts triggered by the test packets you've sent. This proves the IDS can detect the simulated attack patterns.
+* Show firewall logs or configurations as evidence that the traffic on blocked ports is being successfully filtered.
+* Demonstrate rate limiting by showing how the network responds to the SYN flood attack simulation, potentially through logs or performance monitoring tools.
+
+## Conclusions
+
+From the Parts 1 and 2, we can state that the network traffic analysis uncovers substantial evidence of potentially malicious activities, including significant Telnet traffic that might indicate Mirai malware activity, attempts to download malware, and potential SYN flood attack signs. Also, the usage of AWS IPs and repeated DNS queries to an unusual domain suggest potential command and control activities. 
+
+
 
 
