@@ -15,13 +15,21 @@ pipeline is:
 
 ## 1. Instructions and Setup
 
-- [x] Use VirtualBox with Xubuntu VMs on either CSB desktops or personal computers.
-- [x] Download and import two VMs from the Github repository.
-- [x] Within the VMs, whenever you are asked for a password it is `csc3064`. 
+In this initial phase, you will prepare your virtual environment for the network security exercises. This involves setting up two Xubuntu virtual machines (VMs) in VirtualBox, configuring their network interfaces, and ensuring they can communicate within a shared Local Area Network (LAN). Follow these steps to get started:
 
-_Note_. Once configured, the two VMs, called Xubunut1 (VM1) and Xubuntu2 (VM2), will share a network connection that is provided by VirtualBox. This is like having 
-two hosts on the same LAN. Neither host is configured with internet connectivity, so it is safe to experiment with tools such as nmap and hping3 within this 
-virtual environment.
+1.1 **Importing VMs into VirtualBox**. Locate the Xubuntu1.ova and Xubuntu2.ova files provided in this Github repository. Import each VM by double-clicking on the respective files. Accept the default settings during the import process. Once imported, start each VM by double-clicking on their names in the VirtualBox interface.
+The default password for both VMs is `csc3064`. Use this whenever prompted.
+
+1.2 **Configuring VM Network Interfaces**. Both VMs will be set up with static IP addresses to communicate over a virtual LAN. We'll do this manually. For Xubuntu1 (VM1) open a terminal and execute the following commands to configure the network interface named `enp0s8`:
+
+* Disable the interface: `sudo ifconfig enp0s8 down`
+* Assign IP address and network settings: `sudo ifconfig enp0s8 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255`
+
+For Xubuntu2 (VM2) we repeat the steps for VM1, but assign the IP address `192.168.1.2` to `enp0s8`.
+
+1.3 **Validation and Troubleshooting**. Ensure both VMs' network configurations are correctly set up by checking their IP settings with `ifconfig`. We should see the new configuration information added. Be mindful of a potential bug where the interface configuration might reset, indicated by a lost network connection and a spinning icon on the screen. If this occurs, reapply the `sudo ifconfig enp0s8 192.168.1.x` command as needed.
+
+<u>Important</u>: Both VMs must have their network configurations correctly set to the specified IP addresses and subnet mask for successful communication within the shared LAN (subnet `192.168.1.0/24`).
 
 ## 2. VM Configuration:
 
