@@ -32,11 +32,11 @@ For Part 3 you are required to use the two VMs that were used for Labs 2 and 3. 
 * Using the network activity and Indicators of Compromise identified in your answer for Part 2, use `hping3` to create test packets that replicate those key features. `hping3` will allow you to send created packets from one VM to the other.
 * Using whatever network security tools that you think are appropriate within the existing VM environment, propose and demonstrate network security measures that you would implement in a real network to provide protection and detection against the version of Mirai that you observed in the packet capture.
 * Briefly explain any pros or cons of your proposed network security measures, i.e. how effective you think each of your proposed measures would be against Mirai.
-* For guidance, the test packets you create with hping3 do not have to perfectly replicate the packets seen in the original packet capture. The expectation is that you create packets with features that are sufficiently similar to allow for meaningful testing of your security measures.
+* For guidance, the test packets you create with `hping3` do not have to perfectly replicate the packets seen in the original packet capture. The expectation is that you create packets with features that are sufficiently similar to allow for meaningful testing of your security measures.
 * You should present a diverse set of security measures against various network indicators that you believe would be effective, i.e. several different measures and IOCs should be covered by your answer.
 * Provide a verbal and visual explanation to demonstrate and prove that your test packets and security measures work as expected.
 
-Note that for Part 3 you must create test packets that replicate features of interest that you found in the pcap. You do not need to use the Assessment-1.pcap file within the VM environment. You should not create your own alternative VM environment. You do not need to modify the VMs, apart from using the tools as covered in Labs 2 and 3.
+Note that for Part 3 you must create test packets that replicate features of interest that you found in the pcap. You do not need to use the `Assessment-1.pcap` file within the VM environment. You should not create your own alternative VM environment. You do not need to modify the VMs, apart from using the tools as covered in Labs 2 and 3.
 
 ## Video Report Tips
 - Ensure clarity in both audio and visual elements. Use zooming or highlighting in Wireshark to make details easily viewable.
