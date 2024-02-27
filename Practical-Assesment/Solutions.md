@@ -14,8 +14,9 @@
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
   - [3.1 Understanding Mirai and Its IOCs](#31-Understanding-Mirai-and-Its-IOCs)
-  - [3.2 Proposed Network Security Measures](#32-Proposed-Network-Security-Measures)
-  - [3.3 Pros and Cons](#33-Pros-and-Cons)
+  - [3.2 Replicating Malware Scenario](#32-replicating-malware-scenario)
+  - [3.3 Proposed Network Security Measures](#33-Proposed-Network-Security-Measures)
+  - [3.4 Pros and Cons](#34-Pros-and-Cons)
 - [Conclusions](#conclusions)
 
 
@@ -164,8 +165,19 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
+### 3.2 Replicating Malware Scenario
 
-### 3.2 Proposed Network Security Measures
+In this section we're going to replicate the IOCs we discovered in Part 2 and which were summarized in the preceding section. 
+
+1. <ins>Craft Telnet Traffic Packet</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 1 192.168.1.1 -p 23` where `192.168.1.1` is the IP address of VM1.
+2. <ins>Craft HTTP GET Request Packet for Mirai Payload</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 1 192.168.1.1 -p 80 -S -Q -- "GET /bins/mirai.arm7 HTTP/1.1\r\nHost: 192.168.1.1\r\n\r\n"`.
+3. <ins>Generate Excessive SYN Packets</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood 192.168.1.1`.
+4. <ins>Craft DNS Query Packet to Unusual Domain</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 1 192.168.1.1 -p 53 --udp -E dns_query.txt`.
+
+By following these instructions, we can use `hping3` to replicate key features such as Telnet traffic, HTTP GET requests for Mirai payloads, excessive SYN packets, and DNS query packets to unusual domains. 
+
+
+### 3.3 Proposed Network Security Measures
 
 Based on the identified IOCs and the task requirements, we can propose the following network security measures from Labs 2 and 3:
 
@@ -180,7 +192,7 @@ Based on the identified IOCs and the task requirements, we can propose the follo
 Now, let's address the task requirements by proposing and demonstrating network security measures against Mirai using `hping3` and Snort:
 
 
-### 3.3 Pros and Cons
+### 3.4 Pros and Cons
 
 **Firewall Configuration**: 
 - [x] Pros: Provides a basic level of protection against unauthorized access attempts.
