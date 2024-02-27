@@ -3,9 +3,9 @@
 ## Table of Contents
 
 - [Part 1: Basic Analysis](#part-1-basic-analysis)
-  - [1.1 Transport Layer Protocol Analysis](#a-transport-layer-protocol-analysis)
-  - [1.2 Identify All IP Addresses](#b-identify-all-ip-addresses)
-  - [1.3 Host and Network Insights](#c-host-and-network-insights)
+  - [1.1 Transport Layer Protocol Analysis](#11-transport-layer-protocol-analysis)
+  - [1.2 Identify All IP Addresses](#12-identify-all-ip-addresses)
+  - [1.3 Host and Network Insights](#13-host-and-network-insights)
 - [Part 2: Advanced Analysis](#part-2-advanced-analysis)
   - [2.1 Capture File Properties](#21-capture-file-properties)
   - [2.2 TCP Port](#22-tcp-port)
@@ -13,6 +13,9 @@
   - [2.4 Detecting TCP SYN Floods Attacks](#24-detecting-tcp-syn-floods-attacks)
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
+  - [3.1 Understanding Mirai and Its IOCs](#31-Understanding-Mirai-and-Its-IOCs)
+  - [3.2 Proposed Network Security Measures](#32-Proposed-Network-Security-Measures)
+  - [3.3 Pros and Cons](#33-Pros-and-Cons)
 - [Conclusions](#conclusions)
 
 
