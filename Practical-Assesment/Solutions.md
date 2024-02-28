@@ -186,7 +186,25 @@ Based on the identified IOCs and the task requirements, we can propose the follo
   - Allow Snort Traffic: `sudo ufw allow from any to any port 53` If Snort needs to monitor specific network interfaces or ports, you should allow traffic on those ports
   - Limit ICMP (Ping) Requests: `sudo ufw limit 30`
   - Block Unused Ports: `sudo ufw deny from any to any`
-  - Enable logging to monitor firewall activity and detect potential threats: `sudo ufw logging on` 
+  - Enable logging to monitor firewall activity and detect potential threats: `sudo ufw logging on`
+
+After that, we have for VM1 the following Firewall instructions:
+
+```console
+xub@xub-VirtualBox:/etc/snort/rules$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+443                        ALLOW       Anywhere                  
+53                         ALLOW       Anywhere                  
+30                         LIMIT       Anywhere                  
+Anywhere                   DENY        Anywhere                  
+443 (v6)                   ALLOW       Anywhere (v6)             
+53 (v6)                    ALLOW       Anywhere (v6)             
+30 (v6)                    LIMIT       Anywhere (v6)             
+Anywhere (v6)              DENY        Anywhere (v6)
+```
 
 _Note_. We can replicate a SYN Flood Attack with `sudo hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood 192.168.1.1` where `192.168.1.1` is the IP address of VM1.
 
