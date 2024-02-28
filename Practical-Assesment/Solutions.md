@@ -169,15 +169,34 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 
 Based on the identified IOCs and the task requirements, we can propose the following network security measures from Labs 2 and 3:
 
-1. **Rule-Based Security**: Create custom Snort rules to detect and alert on specific Mirai-related network activity, including TCP traffic on Telnet port (23), HTTP GET requests for Mirai payloads, and SYN flood attacks.
+1. **Rule-Based Security**: Create custom Snort rules to detect and alert on specific Mirai-related network activity, including HTTP GET requests for Mirai payloads and SYN flood attacks. For example, SYN flood attacks are a common method used by Mirai to overwhelm network resources, leading to denial of service. Detecting and mitigating such attacks is essential for maintaining network availability. By alerting on SYN flood attacks, network administrators can take proactive measures to mitigate the attack and prevent service disruption. Also, Mirai malware often attempts to download its payload from specific URLs, so it's interesting to get alerts on HTTP GET requests for known Mirai payloads, administrators can detect and block attempted infections. 
 
-  - Detecting SYN Flood Attack: `alert tcp any any -> $HOME_NET any (flags: S; msg:"Possible SYN Flood Attack"; sid:10000003;)`
-  - Detecting HTTP GET Request from Mirai: `alert tcp any any -> any $HTTP_PORTS (msg:"HTTP GET request for /bins/mirai.arm7"; flow:to_server,established; content:"GET /bins/mirai.arm7"; http_uri; sid:10000004;)`
-  - Detecting Shellcode Execution: `alert tcp any any -> $HOME_NET any (msg:"Possible Shellcode Execution Detected"; content:"|90 90 90 90 90|"; sid:10000005;)`
-  - Detecting Suspicious User-Agent Strings: `alert tcp any any -> $HOME_NET any (msg:"Suspicious User-Agent Detected"; content:"User-Agent|3a||20 48 61 63 6b 65 72 73|"; sid:10000006;)`
-  - Detecting DNS Tunneling: `alert udp any any -> $HOME_NET 53 (msg:"Possible DNS Tunneling Detected"; content:"|03|xyz"; sid:10000007;)`
-  - Detecting Large File Transfers: `alert tcp any any -> $HOME_NET any (msg:"Large File Transfer Detected"; content:"Content-Length|3a| 1000000"; sid:10000008;)`
-  - Detecting SSH Brute Force Attempts: `alert tcp any any -> $HOME_NET 22 (msg:"SSH Brute Force Attempt Detected"; content:"Failed password"; sid:10000009;)`   
+```console
+xub@xub-VirtualBox:/etc/snort/rules$ sudo mousepad local.rules
+
+# Detecting SYN Flood Attack
+alert tcp any any -> $HOME_NET 80 (flags: S; msg:"SYN Flood Attack Detected"; sid:10000003;)
+# Detecting HTTP GET Request from Mirai
+alert tcp any any -> any $HTTP_PORTS (msg:"HTTP GET request for /bins/mirai.arm7"; flow:to_server,established; content:"GET /bins/mirai.arm7"; http_uri; sid:10000004;)
+# Detecting Shellcode Execution
+alert tcp any any -> $HOME_NET any (msg:"Possible Shellcode Execution Detected"; content:"|90 90 90 90 90|"; sid:10000005;)
+# Detecting Suspicious User-Agent Strings
+alert tcp any any -> $HOME_NET any (msg:"Suspicious User-Agent Detected"; content:"User-Agent|3a||20 48 61 63 6b 65 72 73|"; sid:10000006;)
+# Detecting DNS Tunneling
+alert udp any any -> $HOME_NET 53 (msg:"Possible DNS Tunneling Detected"; content:"|03|xyz"; sid:10000007;)
+# Detecting Large File Transfers
+alert tcp any any -> $HOME_NET any (msg:"Large File Transfer Detected"; content:"Content-Length|3a| 1000000"; sid:10000008;)
+# Detecting SSH Brute Force Attempts
+alert tcp any any -> $HOME_NET 22 (msg:"SSH Brute Force Attempt Detected"; content:"Failed password"; sid:10000009;)
+```
+
+Why implementing the other Snort rules? 
+
+* Shellcode execution is a common technique used by malware, including Mirai, to exploit vulnerabilities and gain unauthorized access to systems. Detecting shellcode execution can indicate a potential security breach.
+* Mirai-infected devices often use distinct User-Agent strings when communicating with command and control servers. Detecting suspicious User-Agent strings can indicate compromised devices.
+* DNS tunneling is a technique used by malware to bypass traditional security controls and exfiltrate data covertly. Detecting DNS tunneling attempts can indicate a compromise or data exfiltration attempt.
+* Mirai malware may attempt to transfer large files as part of its payload or data exfiltration activities. Detecting large file transfers can indicate potential malware activity or data exfiltration attempts.
+* Mirai and other malware often attempt to gain unauthorized access to systems using brute force attacks against SSH services. Detecting SSH brute force attempts can help identify and block such attacks.
 
 2. **Firewall Configuration**: Implement firewall rules to block incoming and outgoing traffic on Telnet port ($23$) and restrict access to known malicious domains associated with Mirai.
 
