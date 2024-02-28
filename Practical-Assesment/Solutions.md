@@ -14,9 +14,8 @@
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
   - [3.1 Understanding Mirai and Its IOCs](#31-Understanding-Mirai-and-Its-IOCs)
-  - [3.2 Replicating Malware Scenario](#32-replicating-malware-scenario)
-  - [3.3 Proposed Network Security Measures](#33-Proposed-Network-Security-Measures)
-  - [3.4 Pros and Cons](#34-Pros-and-Cons)
+  - [3.2 Proposed Network Security Measures](#33-Proposed-Network-Security-Measures)
+  - [3.3 Pros and Cons](#34-Pros-and-Cons)
 - [Conclusions](#conclusions)
 
 
@@ -165,46 +164,44 @@ Based on the detailed analysis from Part 2, we can identify several Indicators o
 | Repeated DNS Queries to Unusual Domain  | Signifies potential command and control (C2) communication.                                      |
 | Destination IP Address                  | Specific IP addresses targeted or originating malicious traffic.                               |
 
-### 3.2 Replicating Malware Scenario
 
-In this section we're going to replicate the IOCs we discovered in Part 2 and which were summarized in the preceding section. 
-
-1. <ins>Craft Telnet Traffic Packet</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 1 192.168.1.1 -p 23` where `192.168.1.1` is the IP address of VM1.
-2. <ins>Craft HTTP GET Request Packet for Mirai Payload</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 1 192.168.1.1 -p 80 -S -Q -- "GET /bins/mirai.arm7 HTTP/1.1\r\nHost: 192.168.1.1\r\n\r\n"`.
-3. <ins>Generate Excessive SYN Packets</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood 192.168.1.1`.
-4. <ins>Craft DNS Query Packet to Unusual Domain</ins>. Open a terminal on the sending VM (VM2), enter: `sudo hping3 -c 1 192.168.1.1 -p 53 --udp -E dns_query.txt`.
-
-By following these instructions, we can use `hping3` to replicate key features such as Telnet traffic, HTTP GET requests for Mirai payloads, excessive SYN packets, and DNS query packets to unusual domains. 
-
-
-### 3.3 Proposed Network Security Measures
+### 3.2 Proposed Network Security Measures
 
 Based on the identified IOCs and the task requirements, we can propose the following network security measures from Labs 2 and 3:
 
-1. **Firewall Configuration**: Implement firewall rules to block incoming and outgoing traffic on Telnet port ($23$) and restrict access to known malicious domains associated with Mirai.
+1. **Rule-Based Security**: Create custom Snort rules to detect and alert on specific Mirai-related network activity, including TCP traffic on Telnet port (23), HTTP GET requests for Mirai payloads, and SYN flood attacks.
 
-2. **Intrusion Detection Systems (IDS)**: Deploy an IDS such as Snort to monitor network traffic for patterns indicative of Mirai malware, such as HTTP GET requests for Mirai payloads, excessive SYN packets, and repeated DNS queries to unusual domains.
+  - Detecting SYN Flood Attack: `alert tcp any any -> $HOME_NET any (flags: S; msg:"Possible SYN Flood Attack"; sid:10000003;)`
+  - Detecting HTTP GET Request from Mirai: `alert tcp any any -> any $HTTP_PORTS (msg:"HTTP GET request for /bins/mirai.arm7"; flow:to_server,established; content:"GET /bins/mirai.arm7"; http_uri; sid:10000004;)`
+  - Detecting Shellcode Execution: `alert tcp any any -> $HOME_NET any (msg:"Possible Shellcode Execution Detected"; content:"|90 90 90 90 90|"; sid:10000005;)`
+  - Detecting Suspicious User-Agent Strings: `alert tcp any any -> $HOME_NET any (msg:"Suspicious User-Agent Detected"; content:"User-Agent|3a||20 48 61 63 6b 65 72 73|"; sid:10000006;)`
+  - Detecting DNS Tunneling: `alert udp any any -> $HOME_NET 53 (msg:"Possible DNS Tunneling Detected"; content:"|03|xyz"; sid:10000007;)`
+  - Detecting Large File Transfers: `alert tcp any any -> $HOME_NET any (msg:"Large File Transfer Detected"; content:"Content-Length|3a| 1000000"; sid:10000008;)`
+  - Detecting SSH Brute Force Attempts: `alert tcp any any -> $HOME_NET 22 (msg:"SSH Brute Force Attempt Detected"; content:"Failed password"; sid:10000009;)`   
 
-3. **Rule-Based Security**: Create custom Snort rules to detect and alert on specific Mirai-related network activity, including TCP traffic on Telnet port (23), HTTP GET requests for Mirai payloads, and SYN flood attacks.
+2. **Firewall Configuration**: Implement firewall rules to block incoming and outgoing traffic on Telnet port ($23$) and restrict access to known malicious domains associated with Mirai.
 
-4. **Signature-Based Detection**: Develop signatures for known Mirai command and control (C2) communication patterns, allowing the IDS to identify and respond to such activity.
+  - Allow SSH (Port 22) only from Trusted IPs: `sudo ufw allow from <trusted_ip> to any port 22`
+  - Allow HTTPS (Port 443) for Web Traffic: `sudo ufw allow 443`
+  - Allow Snort Traffic: `sudo ufw allow from any to any port 53` If Snort needs to monitor specific network interfaces or ports, you should allow traffic on those ports
+  - Limit ICMP (Ping) Requests: `sudo ufw limit 30`
+  - Block Unused Ports: `sudo ufw deny from any to any`
+  - Enable logging to monitor firewall activity and detect potential threats: `sudo ufw logging on` 
 
-Now, let's address the task requirements by proposing and demonstrating network security measures against Mirai using `hping3` and Snort:
+_Note_. We can replicate a SYN Flood Attack with `sudo hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood 192.168.1.1` where `192.168.1.1` is the IP address of VM1.
 
 
-### 3.4 Pros and Cons
+### 3.3 Pros and Cons
+
+| Security Method          | Pros                                                                                                                                                      | Cons                                                                                                                                  |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| Rule-Based Security      | - Granular control over detection criteria. <br> - Specific alerts for known Mirai-related activities. <br> - Can be customized and expanded easily.    | - Requires continuous updates and maintenance to adapt to new threats. <br> - False positives can occur if rules are too broad.       |
+| Firewall Configuration   | - Provides network-level protection against unauthorized access. <br> - Can block known malicious traffic and restrict access to vulnerable services.           | - May impact legitimate traffic if rules are too restrictive. <br> - Requires careful configuration and monitoring to be effective.    |
+
 
 **Firewall Configuration**: 
 - [x] Pros: Provides a basic level of protection against unauthorized access attempts.
 - [ ] Cons: Limited effectiveness against sophisticated attacks and may require frequent updates to maintain effectiveness.
-
-**IDS with Custom Rules**: 
-- [x] Pros: Can detect specific Mirai-related network activity.
-- [ ] Cons: Requires regular tuning and maintenance to minimize false positives and negatives.
-
-**Signature-Based Detection**: 
-- [x] Pros: Effective at identifying known Mirai signatures.
-- [ ] Cons: Limited to detecting known patterns and may miss new variants of Mirai.
 
 **Network Monitoring with Wireshark**: 
 - [x] Pros: Allows for real-time monitoring and analysis of network traffic.
