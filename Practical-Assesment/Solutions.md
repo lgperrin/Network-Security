@@ -14,8 +14,8 @@
   - [2.5 DNS Traffic](#25-dns-traffic)
 - [Part 3: Demonstrate Network Security Measures](#part-3-demonstrate-network-security-measures)
   - [3.1 Understanding Mirai and Its IOCs](#31-Understanding-Mirai-and-Its-IOCs)
-  - [3.2 Proposed Network Security Measures](#33-Proposed-Network-Security-Measures)
-  - [3.3 Pros and Cons](#34-Pros-and-Cons)
+  - [3.2 Proposed Network Security Measures](#32-Proposed-Network-Security-Measures)
+  - [3.3 Pros and Cons](#33-Pros-and-Cons)
 - [Conclusions](#conclusions)
 
 
@@ -198,14 +198,6 @@ _Note_. We can replicate a SYN Flood Attack with `sudo hping3 -c 10000 -d 120 -S
 | Rule-Based Security      | - Granular control over detection criteria. <br> - Specific alerts for known Mirai-related activities. <br> - Can be customized and expanded easily.    | - Requires continuous updates and maintenance to adapt to new threats. <br> - False positives can occur if rules are too broad.       |
 | Firewall Configuration   | - Provides network-level protection against unauthorized access. <br> - Can block known malicious traffic and restrict access to vulnerable services.           | - May impact legitimate traffic if rules are too restrictive. <br> - Requires careful configuration and monitoring to be effective.    |
 
-
-**Firewall Configuration**: 
-- [x] Pros: Provides a basic level of protection against unauthorized access attempts.
-- [ ] Cons: Limited effectiveness against sophisticated attacks and may require frequent updates to maintain effectiveness.
-
-**Network Monitoring with Wireshark**: 
-- [x] Pros: Allows for real-time monitoring and analysis of network traffic.
-- [ ] Cons - Reactive approach and may not provide proactive protection against Mirai attacks.
 
 
 ## Conclusions
